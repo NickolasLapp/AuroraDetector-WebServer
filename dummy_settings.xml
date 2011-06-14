@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<settings>
+  <preloader_on_reload>true</preloader_on_reload>
+  <number_format>
+    <letters/>
+  </number_format>
+  <data_sets>
+    <data_set did="0">
+      <csv>
+        <columns>
+          <column>date</column>
+          <column>test</column>
+        </columns>
+        <data>2010-09-18 00:00,0</data>
+      </csv>
+    </data_set>
+  </data_sets>
+  <data_set_selector>
+    <drop_down>
+      <scroller_color>C7C7C7</scroller_color>
+    </drop_down>
+  </data_set_selector>
+  <period_selector>
+    <enabled>0</enabled>
+    <custom_period_enabled>0</custom_period_enabled>
+    <periods_title>Zoom:</periods_title>
+    <periods/>
+  </period_selector>
+  <header>
+    <enabled>0</enabled>
+  </header>
+  <balloon>
+    <border_color>B81D1B</border_color>
+  </balloon>
+  <background>
+    <color>F0F0F0</color>
+    <alpha>100</alpha>
+    <border_color>CCCCCC</border_color>
+    <border_alpha>100</border_alpha>
+  </background>
+  <plot_area>
+    <margins>10</margins>
+    <bg_color>F0F0F0</bg_color>
+    <bg_alpha>100</bg_alpha>
+    <border_color>FFFFFF</border_color>
+  </plot_area>
+  <scroller>
+    <enabled>0</enabled>
+  </scroller>
+</settings>

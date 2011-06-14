@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<NetworkLink id="Aurora_Network">
+		<Link id="Aurora_Server">
+			<href>http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_GoogleEarth-Server.php</href>
+			<refreshMode>onInterval</refreshMode>
+			<refreshInterval>60</refreshInterval>
+		</Link>
+		<open>1</open>
+		<visibility>1</visibility>
+		<refreshVisibility>0</refreshVisibility>
+		<flyToView>0</flyToView> 
+	</NetworkLink>
+</kml>

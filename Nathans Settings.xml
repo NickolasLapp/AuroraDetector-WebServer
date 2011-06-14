@@ -1,0 +1,295 @@
+<!-- Only the settings with values not equal to defaults are in this file. If you want to see the
+full list of available settings, check the amstock_settings.xml file in the amstock folder. -->
+
+<!--
+SELECT * FROM SN100110 WHERE 1=0
+-->
+<!--
+-->
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <margins>0</margins>
+  <legend_position>left</legend_position>
+  <max_series>600</max_series>
+  <equal_spacing>false</equal_spacing>
+
+  <add_time_stamp>true</add_time_stamp>
+  <legend_width>150</legend_width>
+  <start_on_axis>false</start_on_axis>
+  <data_reloading>
+    <interval>120</interval>
+  </data_reloading>
+  <number_format>
+
+    <decimal_separator>.</decimal_separator>
+    <thousand_separator>none</thousand_separator>
+  </number_format>
+  <charts>
+    <chart cid="0">
+      <title>CO2 (ppm)</title>
+      <bg_color>FFD7D1,ffffff</bg_color>
+
+      <border_color>#CCCCCC</border_color>
+      <border_alpha>100</border_alpha>
+      <grid>
+        <x>
+          <color>FFFFFF</color>
+          <alpha>70</alpha>
+        </x>
+
+        <y_left>
+          <color>FFFFFF</color>
+          <alpha>70</alpha>
+        </y_left>
+        <y_right>
+          <enabled>true</enabled>
+        </y_right>
+
+      </grid>
+      <values>
+        <x>
+          <enabled>false</enabled>
+        </x>
+        <y_right>
+          <enabled>true</enabled>
+        </y_right>
+
+      </values>
+      <legend>
+        <show_date>true</show_date>
+        <hide_date_on_period>true</hide_date_on_period>
+        <unit_position>right</unit_position>
+        <fade_others_to>20</fade_others_to>
+      </legend>
+
+      <column_width>70</column_width>
+      <graphs>
+        <graph gid="0">
+          <axis>right</axis>
+          <type>line</type>
+          <connect>false</connect>
+          <title>100110</title>
+
+          <color>CC0000</color>
+          <data_sources>
+            <close>SN100110_1CO2P</close>
+          </data_sources>
+          <legend>
+            <date key="true" title="true">{close}</date>
+            <period key="true" title="true">{close}</period>
+
+          </legend>
+          <hidden>false</hidden>
+        </graph>
+      </graphs>
+    </chart>
+    <chart cid="1">
+      <title>Temperature (°C)</title>
+      <bg_color>FFD7D1,ffffff</bg_color>
+
+      <border_color>#CCCCCC</border_color>
+      <border_alpha>100</border_alpha>
+      <grid>
+        <x>
+          <color>FFFFFF</color>
+          <alpha>70</alpha>
+        </x>
+
+        <y_left>
+          <color>FFFFFF</color>
+          <alpha>70</alpha>
+        </y_left>
+        <y_right>
+          <enabled>true</enabled>
+        </y_right>
+
+      </grid>
+      <values>
+        <x>
+          <enabled>false</enabled>
+        </x>
+        <y_right>
+          <enabled>true</enabled>
+        </y_right>
+
+      </values>
+      <legend>
+        <hide_date_on_period>true</hide_date_on_period>
+        <unit_position>right</unit_position>
+        <fade_others_to>20</fade_others_to>
+      </legend>
+      <column_width>70</column_width>
+
+      <graphs>
+        <graph gid="0">
+          <axis>right</axis>
+          <type>line</type>
+          <connect>false</connect>
+          <title>100110</title>
+          <color>0000CC</color>
+
+          <data_sources>
+            <close>SN100110_1TMPC</close>
+          </data_sources>
+          <legend>
+            <date key="true" title="true">{close}</date>
+            <period key="true" title="true">{close}</period>
+          </legend>
+
+          <hidden>false</hidden>
+        </graph>
+      </graphs>
+    </chart>
+    <chart cid="2">
+      <title>Relative Humidity (%)</title>
+      <bg_color>FFD7D1,ffffff</bg_color>
+
+      <border_color>#CCCCCC</border_color>
+      <border_alpha>100</border_alpha>
+      <grid>
+        <x>
+          <color>FFFFFF</color>
+          <alpha>70</alpha>
+        </x>
+
+        <y_left>
+          <color>FFFFFF</color>
+          <alpha>70</alpha>
+        </y_left>
+        <y_right>
+          <enabled>true</enabled>
+        </y_right>
+
+      </grid>
+      <values>
+        <x>
+          <enabled>false</enabled>
+          <enabled>true</enabled>
+        </x>
+        <y_right>
+          <enabled>true</enabled>
+
+        </y_right>
+      </values>
+      <legend>
+        <hide_date_on_period>true</hide_date_on_period>
+        <unit_position>right</unit_position>
+        <fade_others_to>20</fade_others_to>
+      </legend>
+
+      <column_width>70</column_width>
+      <graphs>
+        <graph gid="0">
+          <axis>right</axis>
+          <type>line</type>
+          <connect>false</connect>
+          <title>100110</title>
+
+          <color>FFAE00</color>
+          <data_sources>
+            <close>SN100110_1RHP</close>
+          </data_sources>
+          <legend>
+            <date key="true" title="true">{close}</date>
+            <period key="true" title="true">{close}</period>
+
+          </legend>
+          <hidden>false</hidden>
+        </graph>
+      </graphs>
+    </chart>
+  </charts>
+  <data_set_selector>
+    <enabled>false</enabled>
+
+  </data_set_selector>
+  <period_selector>
+    <custom_period_enabled>false</custom_period_enabled>
+    <from/>
+    <to/>
+    <button>
+      <bg_color_hover>c70003</bg_color_hover>
+      <bg_color_selected>317dc9</bg_color_selected>
+
+      <text_color_hover>ffffff</text_color_hover>
+      <text_color_selected>ffffff</text_color_selected>
+    </button>
+    <periods>
+      <period type="mm" count="1440">1D</period>
+      <period type="mm" count="7200">5D</period>
+      <period type="MM" count="1">1M</period>
+
+      <period type="YYYY" count="1">1Y</period>
+      <period selected="true" type="MAX">MAX</period>
+    </periods>
+    <periods_title>Zoom:</periods_title>
+    <custom_period_title>Custom period:</custom_period_title>
+  </period_selector>
+  <header>
+
+    <enabled>false</enabled>
+  </header>
+  <background>
+    <color>f3f3f3</color>
+    <alpha>100</alpha>
+  </background>
+  <plot_area>
+
+    <margins>10</margins>
+    <bg_color>f3f3f3</bg_color>
+    <bg_alpha>100</bg_alpha>
+    <border_alpha>70</border_alpha>
+    <border_color>f3f3f3</border_color>
+    <border_width></border_width>
+
+    <corner_radius>0</corner_radius>
+  </plot_area>
+  <scroller>
+    <enabled>true</enabled>
+    <height>40</height>
+    <graph_data_source>SN100110_1CO2P</graph_data_source>
+    <bg_color>f5f5f5</bg_color>
+
+    <selected_color>daf0fd</selected_color>
+    <resize_button_color>317dc9</resize_button_color>
+    <resize_button_style>dragger</resize_button_style>
+  </scroller>
+  <export_as_image>
+    <file>PlotGraph.jpg</file>
+    <target>_top</target>
+
+  </export_as_image>
+  <date_formats>
+    <legend>
+      <minutes>DD month, YYYY hh:mm:ss</minutes>
+      <hours>DD month, YYYY hh:mm:ss</hours>
+      <days>DD month, YYYY hh:mm:ss</days>
+      <weeks>DD month, YYYY hh:mm:ss</weeks>
+
+      <months>DD month, YYYY hh:mm:ss</months>
+      <years>DD month, YYYY</years>
+    </legend>
+  </date_formats>
+  <data_sets>
+    <data_set did="0">
+      <color>317dc9</color>
+
+      <file_name>data_plotbytypei.php?user=admin&amp;SN=100110&amp;start=-10080&amp;tz=America%2FDenver</file_name>
+      <csv>
+        <reverse>false</reverse>
+        <separator>,</separator>
+        <date_format>YYYY-MM-DD hh:mm:ss</date_format>
+
+        <decimal_separator>.</decimal_separator>
+        <columns>
+          <column>date</column>
+          <column>SN100110_1CO2P</column>
+          <column>SN100110_1RHP</column>
+          <column>SN100110_1TMPC</column>
+
+        </columns>
+      </csv>
+    </data_set>
+  </data_sets>
+</settings>
+ 

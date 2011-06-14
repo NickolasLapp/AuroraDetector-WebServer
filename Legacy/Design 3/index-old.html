@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Montana Aurora Detector Network - !!!UNDER CONSTRUCTION!!!</title>
+	<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+	<link rel="stylesheet" href="2col_leftNav.css" type="text/css">
+	<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="jquery.ba-bbq.min.js"</script>
+	<script type="text/javascript" src="javaFunctions.js"></script>
+	<script src="http://www.google.com/jsapi?key=ABQIAAAAHP16blkrd4Koo7WXGxBOABSsWUSjEjRtBHXIwYcznw7vTxpJKBRsZs-3HHEbobdbcGxExsqBeA67yQ"></script>
+	<script type="text/javascript">
+	    var ge;
+		// store the object loaded for the given file... initially none of the objects
+		// are loaded, so initialize these to null
+		var currentKmlObjects = {'full': null, 'abbrev': null, 'oval': null};
+		
+		google.load("earth", "1");
+		
+		// Google Earth Specific Functions
+		function init() {
+			google.earth.createInstance('map3d', initCallback, failureCallback);
+		}
+		
+		function initCallback(instance) {
+			ge = instance;
+			ge.getWindow().setVisibility(true);
+			
+			// add a navigation control
+			ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);
+			
+			// add border layer
+			ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+			
+			// Load the correct layer based on cookie
+			var settings = checkSettings();
+			if (settings[0] == 0) {
+				loadKml('abbrev');
+			} else {
+				loadKml('full');
+			}
+			if (settings[1] == 1) {
+				loadKml('oval');
+			}
+			document.getElementById('installed-plugin-version').innerHTML =	ge.getPluginVersion().toString();
+			lookMt();
+		}
+		
+		function failureCallback(errorCode) {}
+		
+		function toggleKml(file) {
+			// remove the old KML object if it exists
+			if (currentKmlObjects[file]) {
+				ge.getFeatures().removeChild(currentKmlObjects[file]);
+				currentKmlObjects[file] = null;
+			} else {
+				loadKml(file);	
+			}
+		}
+		
+		function loadKml(file) {
+			if (file == 'full') {
+				var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web.php';
+			} else if (file == 'abbrev') {
+				var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-Abbreviated.php';
+			} else if (file == 'oval') {
+				var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-NOAAAuroralOval.kml';
+			}
+			
+			// fetch the KML
+			google.earth.fetchKml(ge, kmlUrl, function(kmlObject) {
+			// NOTE: we still have access to the 'file' variable (via JS closures)
+				if (kmlObject) {
+					// show it on Earth
+					currentKmlObjects[file] = kmlObject;
+					ge.getFeatures().appendChild(kmlObject);
+				} else {
+					// bad KML
+					currentKmlObjects[file] = null;
+					
+					// wrap alerts in API callbacks and event handlers
+					// in a setTimeout to prevent deadlock in some browsers
+					setTimeout(function() {
+						alert('Bad or null KML.');
+					}, 0);
+				}
+			});
+		}
+		
+		function lookMt() {
+			// Look at the entire network at the start
+			var mt = ge.createLookAt('');
+			
+			// Set the position values
+			mt.setLatitude(47);
+			mt.setLongitude(-109.7);
+			mt.setRange(1000000); //default is 0.0
+			
+			// Update the view in Google Earth
+			ge.getView().setAbstractView(mt);
+		}
+		
+		function lookOval() {
+			// Look at the entire network at the start
+			var oval = ge.createLookAt('');
+			
+			// Set the position values
+			oval.setLatitude(63);
+			oval.setLongitude(-109.7);
+			oval.setRange(17500000); //default is 0.0
+			
+			// Update the view in Google Earth
+			ge.getView().setAbstractView(oval);
+		}
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// Declare global variables...
+			var starting_color; // used to return the background color to its original value on mouseOut
+			var current_field_size_oval = '102px';  // size of the current_field expander element when oval is visible
+			var current_field_size_no_oval = '86px'; // size of the current_field expander element when oval is not visible
+			var archived_field_size = '152px'; // size of the archived_field expander element when open
+			
+			// Resize Function: Used to resize the content based on the browser window's size.
+			function resize() {
+				if ($(window).width() > 900) {
+					$(document).width($(window).width()-50);
+					content_width = $(window).width()-250;
+					$('#masthead').css('width', '100%');
+				} else {
+					$(document).width(850);
+					content_width = 650;
+					$('#masthead').css('width', 900);
+				}
+				if ($(window).height() > 600) {
+					$(document).height($(window).height()-30);
+					content_height = $(window).height()-150;
+				} else {
+					$(document).height(570);
+					content_height = 450;
+				}
+				$('#map3d').css('height',(content_height-30));
+				$('#map3d').css('width',(content_width-130));
+				$('img.msu').css('left',content_width);
+				
+				$('img.legend').attr('src', 'images/legend.php?width=90&height='+(content_height-30));
+				var settings = checkSettings();
+				if (settings[1] == 1) {		
+					$('img.legend').css('left',(content_width-125));
+				} else {
+					$('img.legend').css('left',(content_width-245));
+				}
+			}
+	
+			// Set up the menu hover behavior		
+			$('li').hover(function() {
+				starting_color = $(this).css("background-color");
+				if ($(this).hasClass('noSelect')) {
+					$(this).css('cursor','default');
+				} else {
+					$(this).css('cursor','pointer');
+					$(this).css('background-color', '#cccccc');
+				}
+			}, function() {
+				$(this).css('cursor','auto');
+				$(this).css('background-color', starting_color);
+			});
+			
+			// Set up the current data display
+			$('#current_data').click(function() {
+				$('.expander').stop().animate({height:'0px'},300);
+				var settings = checkSettings();
+				if (settings[1] == 1) {
+					$('#current_field').stop().animate({height: current_field_size_oval},300);	
+				} else {
+					$('#current_field').stop().animate({height: current_field_size_no_oval},300);
+				}
+				$('.menuHeading').removeClass('noSelect');
+				$('#current_data').addClass('noSelect') ;
+			
+				$('.content').hide(0, function() {
+					$('#current_status').show(0);
+				});
+			}); 
+			
+			$('#toggle_name').click(function() {
+				toggleSettings('nameLength');
+				var settings = checkSettings();
+				if (settings[0] == 1) {
+					toggleKml('abbrev');
+					toggleKml('full');
+					$('#toggle_name').text('Show Abbreviated Names');
+				} else {
+					toggleKml('full');
+					toggleKml('abbrev');
+					$('#toggle_name').text('Show Full Names');
+				}	
+			});
+			
+			$('#toggle_oval').click(function() {
+				toggleSettings('oval');
+				var settings = checkSettings();
+				if (settings[1] == 1) {
+					$('#toggle_oval').text('Hide Auroral Oval');
+					$('img.legend').show().animate({left: (content_width-125)},300);
+					$('#current_field').stop().animate({height: current_field_size_oval},300);
+				} else {
+					$('#toggle_oval').text('Show Auroral Oval');
+					$('img.legend').animate({left: (content_width-245)},300, function() {
+	    				$(this).hide();	
+					});
+					$('#current_field').stop().animate({height: current_field_size_no_oval},300);
+				}	
+				toggleKml('oval');
+			});
+			
+			$('#lookMt').click(function() {
+				lookMt();
+			});
+			
+			$('#lookOval').click(function() {
+				lookOval();
+			});
+			
+			// Archieved data display functions
+			$('#archived_data').click(function() {
+				$('.expander').stop().animate({height:'0px'},300);
+				$('#archived_field').stop().animate({height: archived_field_size},300);
+				$('.menuHeading').removeClass('noSelect');
+				$('#archived_data').addClass('noSelect') ;
+				
+				if ( !$('.content:visible').hasClass('archived_data')) {
+					$('.content').hide(0, function() {
+						$('#archived_index').show(0);
+					});
+				}
+				
+			}); 
+			
+			$('li.college').click(function() {
+				var detector = $(this).attr('id');
+				$('.college').removeClass('noSelect');
+				$('.content').hide(0, function() {
+					$('#archived_'+detector).show(0);
+					$('#'+detector).addClass('noSelect') ;
+				});
+			});
+			
+			// About the sensors display function
+			$('#detector_information').click(function() {
+				$('.expander').stop().animate({height:'0px'},300);
+				$('.content').hide(0, function() {
+					$('#detectors_info').show(0);
+					$('.menuHeading').removeClass('noSelect');
+					$('#detector_information').addClass('noSelect') ;
+				});
+			});
+			
+			$('.photoSelector').click(function() {
+				$('img.photoLink').fadeTo(300, 0.1);
+				$('img.detector').fadeTo(300, 0.1, function() {
+					if ( ($('#detector_photo').attr('src') == 'images/withPCB.jpg')) {
+						$('#detector_photo').attr('src', 'images/noPCB.jpg');
+						$('#image_link').attr('src', 'images/withPCB-icon.jpg');
+						$('.photoSelector').attr('title', 'View with PCB installed...')
+					}else{
+						$('#detector_photo').attr('src', 'images/withPCB.jpg');
+						$('#image_link').attr('src', 'images/noPCB-icon.jpg');
+						$('.photoSelector').attr('title', 'View with PCB removed...')
+					}	
+					$('img.detector').fadeTo(300, 1);
+					$('img.photoLink').fadeTo(300, 1);
+				});
+			});
+			
+			// Sign up page display functions
+			$('#aurora_signup').click(function() {
+				$('.expander').stop().animate({height:'0px'},300);
+				$('.content').hide(0, function() {
+					$('#signup').show(0);
+					$('.menuHeading').removeClass('noSelect');
+					$('#aurora_signup').addClass('noSelect');
+				});
+			});
+			
+			// Inititialize the viewing area
+			resize();
+			init();
+			
+			// Set menu's initial state
+			$('#current_field').css('height', current_field_size_no_oval);
+			$('#current_data').addClass('noSelect');
+			
+			var settings = checkSettings();
+			if (settings[0] == 1) {
+				$('#toggle_name').text('Show Abbreviated Names');
+			} else {
+				$('#toggle_name').text('Show Full Names');
+			}
+			if (settings[1] == 1) {
+				$('#toggle_oval').text('Hide Auroral Oval');
+				$('img.legend').show();
+				$('#current_field').css('height', current_field_size_oval);
+			} else {
+				$('#toggle_oval').text('Show Auroral Oval');
+			}
+			
+			$(window).resize(function() {
+				resize();
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<!-- start masthead -->
+    <div id="masthead">
+		<h1 class="title">Montana Aurora Detector Network</h1>
+		<img class="msu" src="images/msulogo.jpg" border="0" height="110" width="109" alt="msulogo">
+		<h5 class="subheading">
+            Operated by the Optical Remote Sensor Laboratory, Dr. Joseph Shaw,<br>
+            Montana State University, Electrical and Computer Engineering Department
+		</h5>
+    </div>
+	<!-- end masthead -->
+	
+	<ul class="menuBar" id="controls">
+			<li class="menuHeading internal_link" id="current_data">Current Data</li>
+				<div id="current_field" class="expander">
+					<li class="subMenuHeading noSelect" id="display_menu">Map Display Settings</li>
+						<li class="subtext" id="toggle_oval"></li>
+						<li class="subtext" id="toggle_name"></li>
+					<li class="subMenuHeading noSelect" id="map_menu">Map View Shortcuts</li>
+						<li class="subtext" id="lookMt">View Entire Network</li>
+						<li class="subtext" id="lookOval">View Auroral Oval</li>
+				</div>
+			<li class="menuHeading internal_link" id="archived_data">Archived Data</li>
+				<div id="archived_field" class="expander">
+					<li class="menuItem college" id="BCC1">Blackfeet Community College</li>
+					<li class="menuItem college" id="CDK1">Chief Dull Knife College</li>
+					<li class="menuItem college" id="FBC1">Fort Belknap College</li>
+					<li class="menuItem college" id="FPC1">Fort Peck Community College</li>
+					<li class="menuItem college" id="LBC1">Little Big Horn College</li>
+					<li class="menuItem college" id="BZN2">Montana State University</li>
+					<li class="menuItem college" id="SKC1">Salish Kootenai College</li>
+					<li class="menuItem college" id="SCC1">Stone Child College</li>
+				</div>
+			<li class="menuHeading" id="aurora_signup">Sign Up For Aurora Alerts</li>
+			<li class="menuHeading" id="detector_information">Information About Our Detectors</li>
+			<li class="menuHeading">Linking To Our Page</li>
+			<li class="menuHeading">Our Research</li>
+			<li class="menuHeading">Contact Us</li>
+			<table width="100%" border="0" cellpadding="5" cellspacing="5">
+				<tr align="center">
+					<td width="100%"><img src="images/detector-logo.png" border="0" height="80" width="118" alt="Aurora Detector" valign="BOTTOM"></td>
+				</tr>
+			</table>
+	</ul>
+	<div id="content">
+		<div id="current_status" class="content">
+			<h2>Current Aurora Status</h2>
+			<div id="map3d"></div>
+			<img class="legend">
+			<div><small>Google Earth plugin version: <span id="installed-plugin-version">Loading...</span></small></div>
+		</div>
+		<div id="archived_index" class="content" style="display: none">
+			<h2>Archived Data</h2>
+			<p>Please select a detector from the list to the left.</p>
+		</div>
+		<div id="archived_BCC1" class="content archived_data" style="display: none">
+			<h2>Archived Data for the Blackfeet Community College Aurora Detector</h2>
+		</div>
+		<div id="archived_CDK1"  class="content archived_data" style="display: none">
+			<h2>Archived Data for the Chief Dull Knife College Aurora Detector</h2>
+		</div>
+		<div id="archived_FBC1" class="content archived_data" style="display: none">
+			<h2>Archived Data for the Fort Belknap College Aurora Detector</h2>
+		</div>
+		<div id="archived_FPC1" class="content archived_data" style="display: none">
+			<h2>Archived Data for the Fort Peck Community College Aurora Detector</h2>
+		</div>
+		<div id="archived_LBC1" class="content archived_data" style="display: none">
+			<h2>Archived Data for the Little Big Horn College Aurora Detector</h2>
+		</div>
+		<div id="archived_BZN2" class="content archived_data" style="display: none">
+			<h2>Archived Data for the Montana State University Aurora Detector</h2>
+		</div>
+		<div id="archived_SKC1" class="content archived_data" style="display: none">
+			<h2>Archived Data for the Salish Kootenai College Aurora Detector</h2>
+		</div>
+		<div id="archived_SCC1" class="content archived_data" style="display: none">
+			<h2>Archived' Data for the Stone Child College Aurora Detector</h2>
+		</div>
+		<div id="detectors_info" class="content" style="display: none">
+			<h2>Information about the Aurora Detectors</h2>
+			
+			<div> <!--Image and image selector group.  Needed from consistent positioning of link inside of image-->
+				<img class="detector" id="detector_photo" src='images/withPCB.jpg'>
+				<div class="photoSelector" title="View with PCB removed..."><img class="photoLink" id="image_link" src='images/noPCB-icon.jpg'></div>
+			</div>
+		</div>
+		<div id="signup" class="content" style="display: none">
+			<h2>Aurora Detector Network Account Administration</h2>
+			<div class="signin">
+	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

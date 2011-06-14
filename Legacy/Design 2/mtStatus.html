@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="2col_leftNav.css" type="text/css">    
+	<script src="http://www.google.com/jsapi?key=ABQIAAAAHP16blkrd4Koo7WXGxBOABSsWUSjEjRtBHXIwYcznw7vTxpJKBRsZs-3HHEbobdbcGxExsqBeA67yQ"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="javaFunctions.js"></script>
+
+    <script type="text/javascript">
+	    var ge;
+	
+		// store the object loaded for the given file... initially none of the objects
+		// are loaded, so initialize these to null
+		var currentKmlObjects = {'full': null, 'abbrev': null, 'oval': null};
+		
+		google.load("earth", "1");
+		
+		// Google Earth Specific Functions
+		function init() {
+			google.earth.createInstance('map3d', initCallback, failureCallback);
+		}
+		
+		function initCallback(instance) {
+			ge = instance;
+			ge.getWindow().setVisibility(true);
+			
+			// add a navigation control
+			ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);
+			
+			// add border layer
+			ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+			
+			// Load the correct layer based on cookie
+			var settings = checkSettings();
+			if (settings[0] == 0) {
+				loadKml('abbrev');
+			} else {
+				loadKml('full');
+			}
+			if (settings[1] == 1) {
+				loadKml('oval');
+			}
+			document.getElementById('installed-plugin-version').innerHTML =	ge.getPluginVersion().toString();
+			lookMt();
+		}
+		
+		function failureCallback(errorCode) {}
+		
+		function toggleKml(file) {
+			// remove the old KML object if it exists
+			if (currentKmlObjects[file]) {
+				ge.getFeatures().removeChild(currentKmlObjects[file]);
+				currentKmlObjects[file] = null;
+			} else {
+				loadKml(file);	
+			}
+		}
+		
+		function loadKml(file) {
+			if (file == 'full') {
+				var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web.php';
+			} else if (file == 'abbrev') {
+				var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-Abbreviated.php';
+			} else if (file == 'oval') {
+				var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-NOAAAuroralOval.kml';
+			}
+			
+			// fetch the KML
+			google.earth.fetchKml(ge, kmlUrl, function(kmlObject) {
+			// NOTE: we still have access to the 'file' variable (via JS closures)
+				if (kmlObject) {
+					// show it on Earth
+					currentKmlObjects[file] = kmlObject;
+					ge.getFeatures().appendChild(kmlObject);
+				} else {
+					// bad KML
+					currentKmlObjects[file] = null;
+					
+					// wrap alerts in API callbacks and event handlers
+					// in a setTimeout to prevent deadlock in some browsers
+					setTimeout(function() {
+						alert('Bad or null KML.');
+					}, 0);
+				}
+			});
+		}
+		
+		function resize() {
+			var size = windowSize();
+			var mapWidth = size[0]-120;
+			var mapHeight = size[1]-73;
+			
+			document.getElementById('map3d').style.width = mapWidth+'px';
+			document.getElementById('map3d').style.height = mapHeight+'px';
+			document.getElementById('controls').style.width = mapWidth+'px'; 
+			$('img.legend').attr('src', 'images/legend.php?width=90&height='+mapHeight);
+		}
+		
+		// jQuery Functions
+		$(document).ready(function(){
+			var displaySettings = checkSettings();
+			if (displaySettings[0] == 1) {
+				$("#abbrevName").show();
+			} else {
+				$("#fullName").show();
+			}
+			if (displaySettings[1] == 0) {
+				$("#ovalShow").show();
+				$("#lookOval").fadeTo(0,0);
+			} else {
+				$("#ovalHide").show();
+				$("img.legend").show();
+			}
+			
+			$('#fullName').hover(function() { $(this).css('cursor','pointer'); $(this).toggleClass('underline'); }, function() { $(this).css('cursor','auto');	$(this).toggleClass('underline'); });
+			$('#abbrevName').hover(function() { $(this).css('cursor','pointer'); $(this).toggleClass('underline'); }, function() { $(this).css('cursor','auto');	$(this).toggleClass('underline'); });
+			$('#ovalShow').hover(function() { $(this).css('cursor','pointer'); $(this).toggleClass('underline'); }, function() { $(this).css('cursor','auto');	$(this).toggleClass('underline'); });
+			$('#ovalHide').hover(function() { $(this).css('cursor','pointer'); $(this).toggleClass('underline'); }, function() { $(this).css('cursor','auto');	$(this).toggleClass('underline'); });
+			$('#lookMt').hover(function() { $(this).css('cursor','pointer'); $(this).toggleClass('underline'); }, function() { $(this).css('cursor','auto');	$(this).toggleClass('underline'); });
+			$('#lookOval').hover(function() { 
+					$(this).css('cursor','pointer');
+					$(this).toggleClass('underline'); 
+				}, function() { 
+					$(this).css('cursor','auto');
+					$(this).toggleClass('underline'); 
+				});
+			
+			$("#toggleName").click(function() {
+				if ( $('#abbrevName').is(':visible')){
+					$("#abbrevName").toggle();
+					$("#fullName").toggle();
+					toggleKml('full');
+					toggleKml('abbrev');
+				} else {
+					$("#fullName").toggle();
+					$("#abbrevName").toggle();
+					toggleKml('abbrev');
+					toggleKml('full');
+				}
+				toggleSettings('nameLength');
+			});
+			
+			$("#toggleOval").click(function() {
+				if ($('img.legend').is(':visible')){
+					if ( $('#ovalShow').is(':visible')){
+						$('img.legend').animate({right: '25'},300);
+					} else {
+						$('img.legend').animate({right: '145'},300);
+					}		
+				} else {
+					$('img.legend').show();
+					$('img.legend').animate({right: '145'},0);
+					$('img.legend').animate({right: '25'},300);
+				}
+				if ( $('#ovalShow').is(':visible')){
+					$("#ovalShow").toggle();
+					$("#ovalHide").toggle();
+					$("#lookOval").fadeTo(300, 1);
+				} else {
+					$("#ovalHide").toggle();
+					$("#ovalShow").toggle();
+					$("#lookOval").fadeTo(300, 0);
+				}
+				toggleKml('oval');
+				toggleSettings('oval');
+			});
+			
+			$("#lookMt").click(function() {
+				lookMt();
+			});
+			
+			$("#lookOval").click(function() {
+				lookOval();
+			});
+			
+			$("li.menuItem").hover(function() {
+				$(this).stop().animate({height:'100px'},300);
+				$(this).css('background-color','#dddddd');
+			}, function() {
+				$(this).stop().animate({height:'25px'},300);
+				$(this).css('background-color','#ffffff');
+			}); 
+			
+			$("p.subtext").hover(function() {
+				$(this).css('cursor','pointer');
+				$(this).css('background-color','#cccccc');
+				}, function() {
+				$(this).css('cursor','auto');
+				$(this).css('background-color','#dddddd');
+			});
+			
+			init();
+			resize();
+		});
+		$(window).resize(function() {
+			resize();
+		});
+    </script>
+
+</head>
+<body>
+	<ul class="menuBar" id="controls">
+		<li class="h2 menuTitle">Current Aurora Status</li>
+		<li class="menuItem" id="mapMenu" style="width: 150px;">Map Shortcuts&nbsp;<img src="images/arrow.png" width="12" height="12">
+			<p class="subtext" id="test1">View Entire Network</p>
+			<p class="subtext" id="test2">View Auroral Oval</p>
+		</li>
+		<li class="menuItem" id="displayMenu" style="width: 170px;">Display Settings&nbsp;<img src="images/arrow.png" width="12" height="12">
+			<p class="subtext" id="test3">Show Auroral Oval</p>
+			<p class="subtext" id="test4">Show Abbreviated Names</p>
+		</li>
+	</ul>
+	<div id="map3d"></div>
+	
+
+	<div style="display:none;"><center><small>This page automatically refreshes every five minutes to provide the most current data. Google Earth plugin version: <span id="installed-plugin-version">Loading...</span></small></center></div>
+	<img class="legend" src='images/legend.php?width=90&height=200' alt="Loading..." width="90" style="display:none;"></img>
+</body>
+</html>

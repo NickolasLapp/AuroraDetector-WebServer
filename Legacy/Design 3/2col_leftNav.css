@@ -1,0 +1,198 @@
+/***********************************************/
+/* 2col_leftNav.css                            */
+/***********************************************/
+
+/***********************************************/
+/* HTML tag styles                             */
+/***********************************************/
+
+body{
+  font-family: Arial,sans-serif;
+  color: #333333;
+  line-height: 1.166;
+  margin: 0px;
+  padding: 0px;
+}
+
+a:link, a:visited, a:hover{
+  color: #006699;
+  text-decoration: none;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+/* overrides decoration from previous rule for hovered links */
+
+h1, h2, h3, h4, h5, h6{
+  font-family: Arial,sans-serif;
+  margin: 0px;
+  padding: 0px;
+  color: #334d55;
+}
+h1{
+  font-family: Verdana,Arial,sans-serif;
+  font-size: 120%
+}
+h2{
+  font-size: 114%;
+  color: #006699;
+}
+h3{
+  font-size: 100%;
+}
+h4{
+  font-size: 100%;
+  font-weight: bold;
+  color: #333333;
+  margin-left: 3px;
+}
+h5{
+  font-size: 100%;
+}
+h6{
+  font-weight: normal;
+  font-size: 100%;
+}
+
+small{
+  font-weight:normal;
+  font-size: 10px;
+}
+
+p {
+  font-size: 90%;
+}
+
+ul{  
+	margin:0;  
+	padding:0;  
+}  
+
+/***********************************************/
+/* Layout Divs                                 */
+/***********************************************/
+
+#masthead{
+  border-bottom: 1px solid #cccccc;
+  width: 100%;
+}
+
+/***********************************************/
+/*Component Divs                               */
+/***********************************************/
+
+.title {
+	padding-top: 25px;
+	padding-left: 10px;
+}
+
+.subheading {
+	margin-left: 50px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.content {
+	position: absolute; 
+	top: 120px;
+	left: 240px;
+}
+
+img.msu {
+	position: absolute;
+	top: 2px;
+	right: 135px;
+}
+
+img.legend {
+	position: absolute;
+	display: none;
+	top: 20px;
+}
+
+img.detector {
+	position: relative;
+	top: 5px;
+	left: 0px;
+	border: 1px solid;
+	border-color: #cccccc;
+}
+
+.photoSelector {
+	width: 50px;
+	height: 50px;
+	position: relative;
+	left: 255px;
+	top: -50px;
+	border: 1px solid;
+	border-color: #cccccc;
+	background-color: #ffffff;
+}
+
+.photoLink {
+	cursor: pointer;
+	padding-left:5px;
+}
+
+.menuBar {
+	background-color: #dddddd;
+	color: #006699;
+	position: relative;
+	top: 0px;
+	width: 230px;
+	vertical-align: top;
+	list-style-type: none;
+}
+
+.menuHeading {
+	color: #006699;
+	height: 15px;
+	font-size: 90%;
+	text-align: left;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #cccccc;
+	overflow: hidden;
+}
+
+.subMenuHeading {
+	color: #006699;
+	height: 15px;  
+	font-size: 80%;
+	padding-left: 20px;
+	padding-top: 3px;
+	overflow: hidden;
+	border-bottom: 1px solid #cccccc;
+}
+
+.menuItem{   
+	color: #006699;
+	height: 15px;  
+	font-size: 80%;
+	padding-left: 20px;
+	padding-top: 3px;
+	overflow: hidden;
+	border-bottom: 1px solid #cccccc;
+} 
+
+.subtext {  
+	color: #006699;
+	height: 15px;  
+	font-size: 80%;
+	padding-left: 30px;
+	border-bottom: 1px solid #cccccc;
+} 
+
+.expander {
+	overflow: hidden;
+	height: 0px;
+	background-color: #f1f1f1;
+}
+
+.signin {
+	background-color: #dddddd;
+	border-style: double;
+	border-color: #cccccc;
+}

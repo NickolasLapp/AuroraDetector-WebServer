@@ -1,0 +1,3 @@
+BCC1 
+UTC,PMT5577DN,PD1DN,PMTGV,PMTS,TMP,PMT5577rad,PD1rad,rad_units,
+2010-09-20 17:12:00,           0,        1023,           0,           0,       24.30,       -1.27,           0,   uW/m^2*Sr,

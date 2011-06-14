@@ -1,0 +1,147 @@
+/***********************************************/
+/* 2col_leftNav.css                            */
+/***********************************************/
+
+/***********************************************/
+/* HTML tag styles                             */
+/***********************************************/
+
+body{
+  color: #333333;
+  font: 62.5% "Arial", sans-serif; margin: 10px;
+}
+
+h1, h2, h3, h4, h5{
+  font-family: Arial,sans-serif;
+  margin: 0px;
+  padding: 0px;
+  color: #334d55;
+}
+h1{
+  font-family: Verdana,Arial,sans-serif;
+  font-size: 2em;
+  padding-top: 0.5em
+}
+h2{
+  font-size: 1.5em;
+}
+h2.subheading {
+	margin-left: 3em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+h3{
+  font-size: 1.5em;
+}
+h4{
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #006699;
+  margin-left: 0px;
+  display: inline;
+  padding-right: 0.5em;
+}
+h5{
+  font-size: 1.4em;
+  display: inline;
+  padding-right: 0.5em;
+  color: #006699;
+}
+
+small{
+  font-weight:normal;
+  font-size: 0.9em;
+}
+
+p {
+  font-size: 1.1em;
+}
+
+ul{  
+	margin:0;  
+	padding:0;  
+}  
+
+/***********************************************/
+/* Layout Divs                                 */
+/***********************************************/
+
+#masthead{
+  border-bottom: 1px solid #cccccc;
+  width: 100%;
+  height: 100px;
+}
+
+
+img.msu {
+	position: absolute;
+	top: 0px;
+}
+
+img.legend {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+}
+
+img.detector {
+	position: relative;
+	top: 5px;
+	margin: auto;
+	border: 1px solid;
+	border-color: #cccccc;
+}
+
+.bordered_lrb {
+	border-bottom: 1px solid #aaaaaa;
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
+}
+
+/***********************************************/
+/* Toolbar Styles                              */
+/***********************************************/
+
+
+.toolbar {
+	padding: 2px;
+}
+
+#tab2_toolbar {
+	width: 600px;
+}
+
+#timezone_select {
+	position: relative;
+	top: -1px;
+	width: 17em;
+	height: 1.7em;
+}
+
+.option_hover {
+	background-color: #006699;
+	color: white;
+}
+.option_normal {
+	background-color: white;
+	color: #111111;
+}
+
+.separator {
+	display: inline-block;
+}
+
+#displayed_date {
+	display: inline-block;
+}
+
+.button_container {
+	display: inline-block;
+	width: 27px;
+}
+
+.radio_label{
+	width: 90px;
+}

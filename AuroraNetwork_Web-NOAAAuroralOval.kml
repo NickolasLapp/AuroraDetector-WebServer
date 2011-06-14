@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+  <Document>
+    <name>Auroral Oval Activity (extrapolated from NOAA POES)</name>  
+    <atom:author>
+      <atom:name>NOAA Space Weather Prediction Center</atom:name>
+    </atom:author>
+    <atom:link href="http://www.swpc.noaa.gov" />
+    <address>325 South Broadway, Boulder, CO</address>
+      <description>Overlays show the current extent and position of the auroral oval
+        at each pole, extrapolated from measurements taken during the most recent 
+        polar pass of the NOAA POES satellite
+      </description>
+      
+    <Folder>
+      <name>Overlays</name>
+      <open>1</open>
+    
+      <GroundOverlay id="northern oval">
+      
+        <name>Northern Auroral Oval</name>      
+        <color>FFFFFFFF</color>
+        <visibility>1</visibility>
+        <drawOrder>5</drawOrder>
+        
+        <Icon>
+          <href>http://www.swpc.noaa.gov/pmap/GEpmap/GEpmapN.png</href> 
+          <refreshMode>onInterval</refreshMode>
+          <refreshInterval>300</refreshInterval>
+        </Icon>
+        
+        <LatLonBox id="northern overlay bounds">
+	  <north>90</north>
+	  <south>34</south>
+	  <west>-180</west>
+	  <east>180  </east>
+         </LatLonBox>
+         
+      </GroundOverlay>
+    
+     
+      <GroundOverlay id="southern oval">
+      
+        <name>Southern Auroral Oval</name>
+        <color>FFFFFFFF</color>
+        <visibility>1</visibility>
+        <drawOrder>5</drawOrder>
+        
+        <Icon>
+          <href>http://www.swpc.noaa.gov/pmap/GEpmap/GEpmapS.png</href>
+          <refreshMode>onInterval</refreshMode>
+          <refreshInterval>300</refreshInterval>          
+        </Icon>
+        
+        <LatLonBox id="northern overlay bounds">
+	  <north>-34</north>
+	  <south>-90</south>
+	  <west>-180</west>
+	  <east>180  </east>
+        </LatLonBox>
+        
+      </GroundOverlay>
+    
+    </Folder>
+  </Document>
+</kml>
+    
+    

@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Montana Aurora Detector Network - !!!UNDER CONSTRUCTION!!!</title>
+		<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+		<link rel="stylesheet" href="2col_leftNav.css" type="text/css">
+		<link rel="stylesheet" href="buttons.css" type="text/css">
+		<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="jquery.ba-hashchange.min.js"</script>
+		<script type="text/javascript" src="javaFunctions.js"></script>
+		<script src="http://www.google.com/jsapi?key=ABQIAAAAHP16blkrd4Koo7WXGxBOABSsWUSjEjRtBHXIwYcznw7vTxpJKBRsZs-3HHEbobdbcGxExsqBeA67yQ"></script>
+		
+		<script type="text/javascript">
+		    var ge;
+			// store the object loaded for the given file... initially none of the objects
+			// are loaded, so initialize these to null
+			var currentKmlObjects = {'full': null, 'abbrev': null, 'oval': null};
+			
+			google.load("earth", "1");
+			
+			// Google Earth Specific Functions
+			function init() {
+				google.earth.createInstance('map3d', initCallback, failureCallback);
+			}
+			
+			function initCallback(instance) {
+				ge = instance;
+				ge.getWindow().setVisibility(true);
+				
+				// add a navigation control
+				ge.getNavigationControl().setVisibility(ge.VISIBILITY_AUTO);
+				
+				// add border layer
+				ge.getLayerRoot().enableLayerById(ge.LAYER_BORDERS, true);
+				
+				// Load the correct layer based on cookie
+				var settings = checkSettings();
+				if (settings[0] == 0) {
+					loadKml('abbrev');
+				} else {
+					loadKml('full');
+				}
+				if (settings[1] == 1) {
+					loadKml('oval');
+				}
+				document.getElementById('installed-plugin-version').innerHTML =	ge.getPluginVersion().toString();
+				lookMt();
+			}
+			
+			function failureCallback(errorCode) {}
+			
+			function toggleKml(file) {
+				// remove the old KML object if it exists
+				if (currentKmlObjects[file]) {
+					ge.getFeatures().removeChild(currentKmlObjects[file]);
+					currentKmlObjects[file] = null;
+				} else {
+					loadKml(file);	
+				}
+			}
+			
+			function loadKml(file) {
+				if (file == 'full') {
+					var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web.php';
+				} else if (file == 'abbrev') {
+					var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-Abbreviated.php';
+				} else if (file == 'oval') {
+					var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-NOAAAuroralOval.kml';
+				}
+				
+				// fetch the KML
+				google.earth.fetchKml(ge, kmlUrl, function(kmlObject) {
+				// NOTE: we still have access to the 'file' variable (via JS closures)
+					if (kmlObject) {
+						// show it on Earth
+						currentKmlObjects[file] = kmlObject;
+						ge.getFeatures().appendChild(kmlObject);
+					} else {
+						// bad KML
+						currentKmlObjects[file] = null;
+						
+						// wrap alerts in API callbacks and event handlers
+						// in a setTimeout to prevent deadlock in some browsers
+						setTimeout(function() {
+							alert('Bad or null KML.');
+						}, 0);
+					}
+				});
+			}
+			
+			function lookMt() {
+				// Look at the entire network at the start
+				var mt = ge.createLookAt('');
+				
+				// Set the position values
+				mt.setLatitude(47);
+				mt.setLongitude(-109.7);
+				mt.setRange(1000000); //default is 0.0
+				
+				// Update the view in Google Earth
+				ge.getView().setAbstractView(mt);
+			}
+			
+			function lookOval() {
+				// Look at the entire network at the start
+				var oval = ge.createLookAt('');
+				
+				// Set the position values
+				oval.setLatitude(63);
+				oval.setLongitude(-109.7);
+				oval.setRange(17500000); //default is 0.0
+				
+				// Update the view in Google Earth
+				ge.getView().setAbstractView(oval);
+			}
+		</script>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				// This function enables using the back/forward button to navigate parts of the site by binding to the hashchange event.				
+				$(window).hashchange( function(){
+					$('.button').removeClass('active').addClass('normal'); // Reset all nav menu options back to normal
+					$('.tab_content').removeClass('tab_visible').addClass('tab_hidden'); // Reset all tabs to hidden to fix layering problem
+					var hash = location.hash; // Get the value of the current page's location after the #
+					var page = ( hash.replace( /^#/, '' ) || 'blank' ); // Set page to everything after the # or to 'blank' 
+					if (page != 'blank') { // If page is not 'blank'
+						var active_tab = page+'_tab'; // Set the active_tab and check...
+						if ($('#'+active_tab).length != 0) { // if it is a real tab and if so...
+							$('#'+active_tab).removeClass('normal').addClass('active'); // set it to active...
+							$('.tab_content').addClass('tab_hidden');
+							$('#'+page).addClass('tab_visible').removeClass('tab_hidden');
+						} else {
+							$('#current_data_tab').removeClass('normal'); // else set current_data_tab to active
+							$('#current_data_tab').addClass('active');
+							$('.tab_content').addClass('tab_hidden');
+							$('#current_data').addClass('tab_visible').removeClass('tab_hidden');
+						}
+					} else {
+						$('#current_data_tab').removeClass('normal').addClass('active'); // if all else fails set current_data_tab to active
+						$('.tab_content').addClass('tab_hidden');
+						$('#current_data').addClass('tab_visible').removeClass('tab_hidden');
+					}
+				});
+				// Since the event is only triggered when the hash changes, we need to trigger the event now, to handle the hash the page may have loaded with.
+				$(window).hashchange();
+				
+				// Set up the menu hover behavior		
+				$('.button').hover(function() {
+					if (!$(this).hasClass('active')){ $(this).css('cursor','pointer').addClass('highlight').removeClass('normal');}
+				}, function() {
+					if (!$(this).hasClass('active')){ $(this).css('cursor','auto').addClass('normal');}
+					$(this).removeClass('highlight');
+				});
+				
+				$('.button').click(function() {
+					$(this).removeClass('highlight');
+				});
+				
+				function resize() {
+					if ($(window).width() > 900) {
+						$(document).width($(window).width()-50);
+						content_width = $(window).width()-250;
+						$('#masthead').css('width', '100%');
+					} else {
+						$(document).width(850);
+						content_width = 650;
+						$('#masthead').css('width', 900);
+					}
+					if ($(window).height() > 600) {
+						$(document).height($(window).height()-30);
+						content_height = $(window).height()-150;
+					} else {
+						$(document).height(570);
+						content_height = 450;
+					}
+					$('#map3d').css('height',(content_height-30));
+					$('#map3d').css('width',(content_width-130));
+					$('img.msu').css('left',content_width);
+					
+					$('img.legend').attr('src', 'images/legend.php?width=90&height='+(content_height-30));
+					var settings = checkSettings();
+					if (settings[1] == 1) {		
+						$('img.legend').css('left',(content_width-125));
+					} else {
+						$('img.legend').css('left',(content_width-245));
+					}
+				}
+				
+				$('#toggle_name').click(function() {
+					toggleSettings('nameLength');
+					var settings = checkSettings();
+					if (settings[0] == 1) {
+						toggleKml('abbrev');
+						toggleKml('full');
+						$('#toggle_name').text('Show Abbreviated Names');
+					} else {
+						toggleKml('full');
+						toggleKml('abbrev');
+						$('#toggle_name').text('Show Full Names');
+					}	
+				});
+				
+				$('#toggle_oval').click(function() {
+					toggleSettings('oval');
+					var settings = checkSettings();
+					if (settings[1] == 1) {
+						$('#toggle_oval').text('Hide Auroral Oval');
+						$('img.legend').show().animate({left: (content_width-125)},300);
+					} else {
+						$('#toggle_oval').text('Show Auroral Oval');
+						$('img.legend').animate({left: (content_width-245)},300, function() {
+		    				$(this).hide();	
+						});
+					}	
+					toggleKml('oval');
+				});
+				
+				$('#lookMt').click(function() {
+					lookMt();
+				});
+				
+				$('#lookOval').click(function() {
+					lookOval();
+				});
+				
+				// Inititialize the viewing area
+				resize();
+				init();
+								
+				$(window).resize(function() {
+					resize();
+				});
+			});
+			
+		</script>
+	</head>
+
+	<body>
+		<!-- start masthead -->
+	    <div id="masthead">
+			<h1 class="title">Montana Aurora Detector Network</h1>
+			<img class="msu" src="images/msulogo.jpg" border="0" height="110" width="109" alt="msulogo">
+			<h5 class="subheading">
+	            Operated by the Optical Remote Sensor Laboratory, Dr. Joseph Shaw,<br>
+	            Montana State University, Electrical and Computer Engineering Department
+			</h5>
+	    </div>
+		<!-- end masthead -->
+		
+		<!-- start nav bar -->
+		<div class="nav">
+			<a href="#current_data" class="button" id="current_data_tab" target="_top">Current Data</a>
+			<a href="#archived_data" class="button" id="archived_data_tab" target="_top">Archived Data</a>
+			<a href="#signup" class="button" id="signup_tab" target="_top">Sign Up For Aurora Alerts</a>
+			<a href="#info" class="button" id="info_tab" target="_top">Information About Our Detectors</a>
+			<a href="#linking" class="button" id="linking_tab" target="_top">Linking To Our Site</a>
+			<a href="http://www.coe.montana.edu/ee/jshaw/JShaw_Research.htm" class="button" target="_blank">Our Research</a>
+			<a href="mailto:jshaw at montana dot edu" class="button">Contact Us</a>
+		</div>
+		<!-- end nav bar -->
+		
+		<!-- start contents -->	
+		<div class="tab_content" id="current_data">
+			<div class="toolbar"><h2>Current Aurora Status</h2></div>
+			<div id="map3d"></div>
+			<img class="legend">
+			<div><small>Google Earth plugin version: <span id="installed-plugin-version">Loading...</span></small></div>
+		</div>
+		<div class="tab_content" id="archived_data"><h2>Archived Data</h2></div>
+		<div class="tab_content" id="signup"><h2>Aurora Detector Network Account Administration</h2></div>
+		<div class="tab_content" id="info"><h2>Information About the Aurora Detectors</h2></div>
+		<div class="tab_content" id="linking"><h2>Linking to Our Site</h2></div>
+		<!-- end contents -->
+	</body>
+</html>

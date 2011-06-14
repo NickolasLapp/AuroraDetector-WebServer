@@ -1,0 +1,76 @@
+<?php
+	$date = $_REQUEST['date'];
+	
+	include_once 'constants.php';
+	
+	$dom=new DOMDocument('1.0','UTF-8');
+	
+	$settings = $dom->createElement('settings');
+	$settingsNode = $dom->appendChild($settings);
+	
+		$addTimeStamp = $dom->createElement('add_time_stamp', 'true');
+		$addTimeStampNode = $settings->appendChild($addTimeStamp);
+		
+		$maxSeries = $dom->createElement('max_series', '144');
+		$maxSeriesNode = $settings->appendChild($maxSeries);
+		
+		$equalSpacing = $dom->createElement('equal_spacing', 'false');
+		$equalSpacingNode = $settings->appendChild($equalSpacing);
+		
+		$formatNumber = $dom->createElement('number_format');
+		$formatNumberNode = $settings->appendChild($formatNumber);
+		
+			$decimalSeparator = $dom->createElement('decimal_separator', '.');
+			$decimalSeparatorNode = $formatNumber->appendChild($decimalSeparator);
+			
+			$thousandsSeparator = $dom->createElement('thousand_separator', 'none');
+			$thousandsSeparatorNode = $formatNumber->appendChild($thousandsSeparator);
+		
+		$datasets = $dom->createElement('data_sets');
+		$datasetsNode = $settings->appendChild($datasets);
+		
+			$dataset = $dom->createElement('data_set');
+			$datasetNode = $datasets->appendChild($dataset);
+			$datasetNode->setAttribute('did', '0');
+		
+			$color = $dom->createElement('color', '006699');
+			$colorNode = $dataset->appendChild($color);
+			
+			$fileName = $dom->createElement('filename', 'data.php?date='.$date);
+			$fileNameNode = $dataset->appendChild($fileName);
+			
+			$csv = $dom->createElement('csv');
+			$csvNode = $dataset->appendChild($csv);
+			
+			$reverse = $dom->createElement('reverse', 'true');
+			$reverseNode = $dataset->appendChild($reverse);
+			
+			$separator = $dom->createElement('separator', ',');
+			$separatorNode = $dataset->appendChild($separator);
+			
+			$skipFirstRows = $dom->createElement('skip_first_rows', '1');
+			$skipFirstRowsNode = $dataset->appendChild($skipFirstRows);
+			
+			$dateFormat = $dom->createElement('date_format', 'YYYY-MM-DD hh:mm');
+			$dateFormatNode = $dataset->appendChild($dateFormat);
+			
+			$columns = $dom->createElement('columns');
+			$columnsNode = $dataset->appendChild($columns);
+			
+			
+			
+			<columns>
+           <column>date</column>
+		
+		$charts = $dom->createElement('charts');
+		$chartsNode = $settings->appendChild($charts);
+			
+			
+	
+	
+	//Tell the browser the output is XML via the 'Content-Type' HTTP header
+	header('Content-Type: text/xml');
+	
+	//Display DOM document
+	echo $dom->saveXML();
+?>

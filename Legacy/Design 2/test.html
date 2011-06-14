@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>jQuery test page</title>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$("#changeText").click(function() {
+$("#textBox").html("My text is changed!");
+});
+});
+</script>
+</head>
+<body>
+<a id="changeText">Change my text</a>
+<br />
+<div id="textBox">This text will be changed to something else</div>
+</body>
+</html>
