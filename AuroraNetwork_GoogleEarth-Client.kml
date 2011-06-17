@@ -2,7 +2,7 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
 	<NetworkLink id="Aurora_Network">
 		<Link id="Aurora_Server">
-			<href>http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_GoogleEarth-Server.php</href>
+			<href>http://orsl.eps.montana.edu/betaWebsite/aurora/AuroraNetwork_GoogleEarth-Server.php</href>
 			<refreshMode>onInterval</refreshMode>
 			<refreshInterval>60</refreshInterval>
 		</Link>

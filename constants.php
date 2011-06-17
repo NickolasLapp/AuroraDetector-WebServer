@@ -1,4 +1,6 @@
 <?php
+	$DATA_DIR = 'http://orsl.eps.montana.edu/betaWebsite/aurora/';
+	
 	// Create an array of the detectors
 	$detectors = array();
 	$detectors['abbreviations'] = array('MSU', 'SKC', 'LBHC', 'FPCC', 'FBC', 'CDKC', 'SCC', 'BCC');

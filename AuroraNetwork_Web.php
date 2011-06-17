@@ -23,7 +23,8 @@
 	$nameNode = $documentNode->appendChild($name);
 	
 	$descriptionText = '<p><h3 style = "margin-right: 130px; font-size: 12px; font-weight: normal;">Overlays the current status of each of the eight detectors in the Montana Aurora Detector Network.<br><br>This network is operated by the Optical Remote Sensor Laboratory on the campus of Montana State University, Bozeman.</p><p></h3><h6 style = "font-size: 10px; font-weight: normal; text-align: center;">The data refreshes every minute to provide you with the most current information possible.</h6></p>';
-	$descriptionText = $descriptionText.'<img style = "position:absolute;left:275px;top:15;"; src = http://www.coe.montana.edu/ee/weather/aurora/images/msulogo.jpg>';
+	//TODO: Make this lower link dynamic
+	$descriptionText = $descriptionText.'<img style = "position:absolute;left:275px;top:15;"; src = http://orsl.eps.montana.edu/betaWebsite/aurora/images/msulogo.jpg>';
 	
 	$description = $dom->createElement('description',$descriptionText);
 	$descriptionNode = $documentNode->appendChild($description);
@@ -88,7 +89,8 @@
 		$iconStyle = $dom->createElement('Icon');
 		$iconStyleNode = $styleNode->appendChild($iconStyle);
 		
-		$iconImageLink = 'http://www.coe.montana.edu/ee/weather/aurora/stationImage.php?ID='.($detectors['IDs'][$ii]).'&date='.$expiration_time;
+		//TODO: Make this lower link dynamic
+		$iconImageLink = 'http://orsl.eps.montana.edu/betaWebsite/aurora/stationImage.php?ID='.($detectors['IDs'][$ii]).'&date='.$expiration_time;
 		$iconLink = $dom->createElement('href', htmlspecialchars($iconImageLink));
 		$iconLinkNode = $iconStyleNode->appendChild($iconLink);
 		
