@@ -97,8 +97,8 @@
 		$descriptionText = $descriptionText.'<p><h3 style = "font-size: 12px; font-weight: normal; font-family: Arial,sans-serif;">Aurora detector on the campus of '.$detectors['names'][$ii].'.</h3>';
 		$descriptionText = $descriptionText.'</p><text style = "font-size: 12px; font-weight: normal; font-family: Arial,sans-serif;">';
 		$descriptionText = $descriptionText.'<p>Current Status: No Aurora';
-		$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.'#####'.' &#956;W/m<sup>2</sup>Sr</rad>';
-		$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.'#####'.' &#956;W/m<sup>2</sup>Sr</rad></p></text>';
+		$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.'###'.' &#956;W/m<sup>2</sup>Sr</rad>';
+		$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.'###'.' &#956;W/m<sup>2</sup>Sr</rad></p></text>';
 		
 		$description = $dom->createElement('description', $descriptionText);
 		$descriptionNode = $placemarkNode->appendChild($description);

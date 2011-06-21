@@ -1,5 +1,6 @@
 <?php
-	$DATA_DIR = 'http://orsl.eps.montana.edu/betaWebsite/aurora/';
+	$SITE_DIR = 'http://orsl.eps.montana.edu/betaWebsite/aurora/';
+	$DATA_DIR = '//ORSL-MAXWELL/Data-Auxiliary/Aurora_Network/';
 	
 	// Create an array of the detectors
 	$detectors = array();
