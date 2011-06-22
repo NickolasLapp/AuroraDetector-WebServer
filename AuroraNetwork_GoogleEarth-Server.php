@@ -1,5 +1,6 @@
 <?php	
 	include_once 'constants.php';
+	include_once 'dataParsing.php';
 	
 	//Set up the G.E. header and create the folders	
 	$dom=new DOMDocument('1.0','iso-8859-1');
@@ -96,9 +97,22 @@
 		$descriptionText = '<h3 style = "text-align: left";>'.$detectors['names'][$ii].'</h3>';
 		$descriptionText = $descriptionText.'<p><h3 style = "font-size: 12px; font-weight: normal;">Aurora detector on the campus of '.$detectors['names'][$ii].'.</h3>';
 		$descriptionText = $descriptionText.'</p>';
-		$descriptionText = $descriptionText.'Current Status: No Aurora';
-		$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
-		$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+		
+		$PMTData = getRecentPMTAuroraData($detectors['IDs'][$ii]);
+		$PDData	 = getRecentPDAuroraData($detectors['IDs'][$ii]);
+		if ($PMTData == 'NaN' || $PDData == 'NaN')
+			$descriptionText = $descriptionText.'Current Status: Standby';
+			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+		else {
+			$descriptionText = $descriptionText.'Current Status: On';
+			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.$PMTData.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.$PDData.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+		}
+		
+		
+		
+
 		
 		//TODO: Make these lower links dynamic
 		$descriptionText = $descriptionText.'<br><br><a href="http://orsl.eps.montana.edu/betaWebsite/aurora/units.php"><i>About our units</i></a>';
