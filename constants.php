@@ -1,4 +1,5 @@
 <?php
+	include('dataPaths.inc');
 	// Create an array of the detectors
 	$detectors = array();
 	$detectors['abbreviations'] = array('MSU', 'SKC', 'LBHC', 'FPCC', 'FBC', 'CDKC', 'SCC', 'BCC');
@@ -19,7 +20,7 @@
 	function get_data($date) {
 		// This file accepts the date in the format YYYY-MM-DD and returns all of the data from all of the detectors from that date
 		
-		global $column_headings, $mountain_timezone, $UTC_timezone, $detectors, $charts_possible, $school_colors;
+		global $column_headings, $mountain_timezone, $UTC_timezone, $detectors, $charts_possible, $school_colors, $DATA_DIR;
 		
 		// Initialize the temporary data array
 		$data_array = array();
@@ -43,7 +44,7 @@
 		
 			$dir_handle = @opendir('data/'.$ID) or die("Error: Cannot open the data folder for detector id: ".$ID); 
 		
-			$handle = fopen('data/'.$ID.'/'.$date.'.txt',"r");
+			$handle = fopen("$DATA_DIR".$ID.'/'.$date.'.txt',"r");
 			
 			if ($handle === FALSE) {	
 				// If the file cannot be opened, add a set of nulls for the requested date
