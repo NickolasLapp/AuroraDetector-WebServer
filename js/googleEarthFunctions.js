@@ -25,7 +25,7 @@ function initCB(instance) {
 function loadKml(file) {
 	var ts = new Date().getTime();
 	if (file == 'full') {
-		//TODO: Make this DYNAMIC!
+		//TODO: VERY IMPORTANT!! MAKE THESE DYNAMIC LINKS!
 		var kmlUrl = 'http://orsl.eps.montana.edu/betaWebsite/aurora/AuroraNetwork_Web.php?time='+ts;
 	} else if (file == 'abbrev') {
 		var kmlUrl = 'http://orsl.eps.montana.edu/betaWebsite/aurora/AuroraNetwork_Web-Abbreviated.php?time='+ts;
