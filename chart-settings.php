@@ -1,6 +1,6 @@
 <?php
 	$date = $_REQUEST['date'];
-	//$date = '2010-09-17';
+	//$date = '2011-07-06';
 	
 	include_once 'constants.php';
 	

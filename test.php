@@ -1,4 +1,4 @@
 <?php
 include_once 'dataParsing.php';
-echo getRecentPMTAuroraData("BZN2");
+echo date('Y-m-d', mktime(0,0,0,date('m'),date('d'),date('Y'))).".txt";
 ?>

@@ -1,12 +1,13 @@
 <?php
 	//$ID = $_REQUEST['ID'];
+	include("dataPaths.inc");
 	date_default_timezone_set('America/Denver');
 
 	$detectors = array('BCC1','CDK1','FBC1','FPC1','LBH1','BZN2','SKC1','SCC1');
 	
 	for ($ii = 0; $ii < count($detectors); $ii++) {
 		$ID = $detectors[$ii];
-		$path = 'data/'.$ID;
+		$path = $DATA_DIR.$ID;
 		$dir_handle = @opendir($path) or die("Cannot open the data folder for detector id: ".$ID);
 		// Loop through the data files
 		while ($file = readdir($dir_handle)) {
