@@ -17,18 +17,23 @@ function getEntireAuroraData($dataType, $detectorID) {
 		}
 		return $array;
 	}
+	else
+		return "";
 }
-
-function getRecentPMTAuroraData($detectorID)
-{
+function getRecentPMTAuroraData($detectorID) {
 	$array = getEntireAuroraData("PMT", $detectorID);
-	return $array[sizeof($array) - 1];
+	if ($array != "")
+		return $array[sizeof($array) - 1];
+	else
+		return "";
 }
 
-function getRecentPDAuroraData($detectorID)
-{
+function getRecentPDAuroraData($detectorID) {
 	$array = getEntireAuroraData("PD", $detectorID);
-	return $array[sizeof($array) - 1];
+	if ($array != "")
+		return $array[sizeof($array) - 1];
+	else
+		return "";
 }
 
 ?>
