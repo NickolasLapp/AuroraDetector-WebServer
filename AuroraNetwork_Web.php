@@ -101,15 +101,20 @@
 
 		$PMTData = getRecentPMTAuroraData($detectors['IDs'][$ii]);
 		$PDData	 = getRecentPDAuroraData($detectors['IDs'][$ii]);	
-		if ($PMTData == '' || $PDData == '') {
+		if ($PMTData == 'NaN' || $PDData == 'NaN') {
 			$descriptionText = $descriptionText.'Current Status: Standby';
-			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
-			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;"> '.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;"> '.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+		}
+		else if ($PMTData == '' || $PDData == '') {
+			$descriptionText = $descriptionText.'Current Status: Inactive';
+			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;"> '.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;"> '.'#####'.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
 		}
 		else {
 			$descriptionText = $descriptionText.'Current Status: On';
-			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.$PMTData.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
-			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;">'.$PDData.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;"> '.$PMTData.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
+			$descriptionText = $descriptionText.'<br>PD:<rad style = "text-align: left; margin-left: 15px;"> '.$PDData.' &#956;<i>W</i>/<i>m</i><sup>2</sup><i>Sr</i></rad>';
 		}
 		/*$descriptionText = $descriptionText.'<p>Current Status: No Aurora';
 		$descriptionText = $descriptionText.'<br>PMT:<rad style = "text-align: left; margin-left: 10px;">'.$PMTData.' &#956;W/m<sup>2</sup>Sr</rad>';
