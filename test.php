@@ -1,4 +1,5 @@
 <?php
-include_once 'dataParsing.php';
-echo date('Y-m-d', mktime(0,0,0,date('m'),date('d'),date('Y'))).".txt";
+	include("constants.php");
+	$array = get_data("2011-07-18");
+	print_r($array);
 ?>
