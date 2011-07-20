@@ -11,7 +11,7 @@
 		$dir_handle = @opendir($path) or die("Cannot open the data folder for detector id: ".$ID);
 		// Loop through the data files
 		while ($file = readdir($dir_handle)) {
-			if (preg_match('/^(\d{4}-\d{2}-\d{2}.txt)/', $file) ) {
+			if (preg_match('/^(\d{4}-\d{2}-\d{2}.csv)/', $file) ) {
 				if (substr($file,0,4)!=0) {
 					$date = substr($file,0,4).'-'.substr($file,5,2).'-'.substr($file,8,2);
 					$dates_list[] = $date;
@@ -32,7 +32,7 @@
 		foreach ($dates_list as $date) {
 			echo '<tr> <td width="20%"><a class="chart_link" href="chart_page.php?date='.$date.'">'.$date.'</a></td> <td width="10%">download: </td>';
 			foreach($detectors_with_data[$date] as $detector) {
-				echo '<td width="10%"><a href="data/'.$detector.'/'.str_replace('/', '-', $date).'.txt">'.$detector.'</a></td>';
+				echo '<td width="10%"><a href="data/'.$detector.'/'.str_replace('/', '-', $date).'.csv">'.$detector.'</a></td>';
 			}	
 		}
 		echo '</table>';

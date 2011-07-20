@@ -4,7 +4,7 @@
 	
 	include_once 'constants.php';
 	
-	$aurora_data = get_data($date);
+	$aurora_data = get_data($date, TRUE);
 	
 	$dom=new DOMDocument('1.0','UTF-8');
 	
@@ -53,6 +53,9 @@
 		
 			$color = $dom->createElement('color', '006699');
 			$colorNode = $dataset->appendChild($color);
+				
+				$data = $dom->createElement('file_name', "chartdata.php?date=$date");
+				$dataNode = $dataset->appendChild($data);
 			
 			$csv = $dom->createElement('csv');
 			$csvNode = $dataset->appendChild($csv);
@@ -77,9 +80,9 @@
 					$columnNode = $columns->appendChild($column);				
 				}
 							
-				$data = $dom->createElement('data', $aurora_data['data']);
-				$dataNode = $csv->appendChild($data);
-		
+				//$data = $dom->createElement('data', $aurora_data['data']);
+				//$dataNode = $csv->appendChild($data);
+			
 		$charts = $dom->createElement('charts');
 		$chartsNode = $settings->appendChild($charts);
 			

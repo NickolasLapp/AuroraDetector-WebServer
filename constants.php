@@ -14,10 +14,9 @@
 	$charts_possible = array("Green (557.7nm)"=>'5577', "Red (630.0nm)"=>'6300', "Blue (427.8nm)"=>'4278', "White"=>'PD1', "White 2"=>'PD2');
 	
 	$mountain_timezone = new DateTimeZone('America/Denver');
-	$UTC_timezone = new DateTimeZone('UTC');
-
+	$UTC_timezone = new DateTimeZone('UTC');	
 	
-	function get_data($date) {
+	function get_data($date, $isDataExcluded) {
 		// This file accepts the date in the format YYYY-MM-DD and returns all of the data from all of the detectors from that date
 		
 		global $column_headings, $mountain_timezone, $UTC_timezone, $detectors, $charts_possible, $school_colors, $DATA_DIR;
@@ -42,9 +41,9 @@
 			$offset_ID = $ID.'_offset';
 			$offset = $$offset_ID;
 		
-			$dir_handle = @opendir('data/'.$ID) or die("Error: Cannot open the data folder for detector id: ".$ID); 
+			$dir_handle = @opendir($DATA_DIR.$ID) or die("Error: Cannot open the data folder for detector id: ".$ID); 
 		
-			$handle = fopen("$DATA_DIR".$ID.'/'.$date.'.txt',"r");
+			$handle = fopen("$DATA_DIR".$ID.'/'.$date.'.csv',"r");
 			
 			if ($handle === FALSE) {	
 				// If the file cannot be opened, add a set of nulls for the requested date
@@ -68,7 +67,16 @@
 			
 			} else {
 				// Else add all of the data in the time range
-				while($data = fgetcsv($handle, 1024)){
+				// TODO: THIS IS TEMPORARY!!////////////////
+				if ($isDataExcluded)					////
+					$jjj = 49900 ;						////
+				else									////
+					$jjj = 0;							////
+				while($data = fgetcsv($handle, 1024)){	////
+					$jjj++;								////
+					if ($jjj > 50000)					////
+						break;							////
+				// TODO: THIS IS TEMPORARY!!////////////////
 					if (strtotime($data[0]) !== FALSE ) {
 						if ($data[0] == 'UTC') {
 							$UTC_col = 0;
@@ -97,6 +105,8 @@
 								}  
 							}
 						} else {	
+							//if($isDataExcluded == FALSE)
+							//	break;
 							$UTC_time = DateTime::createFromFormat('Y-m-d H:i:s', $data[0], $UTC_timezone);
 							$local_time = DateTime::createFromFormat('Y-m-d H:i:s', $data[0], $UTC_timezone);
 							$local_time->setTimezone($mountain_timezone);
@@ -170,7 +180,8 @@
 		
 		unset($data_array, $max_PMT5577DN, $max_PMT6300DN, $max_PMT4278DN, $max_PD1DN, $max_PD2DN, $UTC_time, $local_time, $current_column, $offset_ID, $offset, $ID, $ii, $jj);
 		
-		$output['columns'] = $output_columns;
+		if($isDataExcluded)
+			$output['columns'] = $output_columns;
 		$unformatted_output = array();
 		foreach ($output_data as $column) {
 			$temp_data = array_combine($output_data['date'], $column);
@@ -182,23 +193,26 @@
 			$output_rows[] = implode(',', $row);
 		}
 		
-		$output['data'] = implode("\n", $output_rows);
+		if (!$isDataExcluded)
+			$output['data'] = implode("\n", $output_rows);
 		
 		unset($unformatted_output, $output_rows, $row, $column);
 		
 		foreach ($charts_possible as $chart_title => $needle) {
 			foreach ($output['columns'] as $haystack) {
-				if (strlen(strstr($haystack, $needle))>0) {
-					$output['charts'][$needle]['title'] = $chart_title;
-					$output['charts'][$needle]['columns'][] = $haystack;
-					
-					$ii = 0;
-					foreach ($school_colors as $color => $school) {
-						if (strlen(strstr($haystack, $school))>0) {
-							$output['charts'][$needle]['colors'][] = $color;
-							$output['charts'][$needle]['schools'][] = $detectors['abbreviations'][$ii];
+					if($isDataExcluded) {
+					if (strlen(strstr($haystack, $needle))>0) {
+						$output['charts'][$needle]['title'] = $chart_title;
+						$output['charts'][$needle]['columns'][] = $haystack;
+						
+						$ii = 0;
+						foreach ($school_colors as $color => $school) {
+							if (strlen(strstr($haystack, $school))>0) {
+								$output['charts'][$needle]['colors'][] = $color;
+								$output['charts'][$needle]['schools'][] = $detectors['abbreviations'][$ii];
+							}
+							$ii++;
 						}
-						$ii++;
 					}
 				}
 			}
@@ -208,5 +222,4 @@
 		
 		return $output;
 	}
-	
 ?>
