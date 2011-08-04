@@ -66,7 +66,6 @@
 				$data_array[$UTC_time->format('Y-m-d H:i')][$offset+4] = NULL;
 			
 			} else {
-				// Else add all of the data in the time range
 				// TODO: THIS IS TEMPORARY!!////////////////
 				if ($isDataExcluded)					////
 					$jjj = 49900 ;						////
@@ -77,6 +76,7 @@
 					if ($jjj > 50000)					////
 						break;							////
 				// TODO: THIS IS TEMPORARY!!////////////////
+				// Else add all of the data in the time range
 					if (strtotime($data[0]) !== FALSE ) {
 						if ($data[0] == 'UTC') {
 							$UTC_col = 0;
@@ -180,6 +180,7 @@
 		
 		unset($data_array, $max_PMT5577DN, $max_PMT6300DN, $max_PMT4278DN, $max_PD1DN, $max_PD2DN, $UTC_time, $local_time, $current_column, $offset_ID, $offset, $ID, $ii, $jj);
 		
+		//This is important
 		if($isDataExcluded)
 			$output['columns'] = $output_columns;
 		$unformatted_output = array();
