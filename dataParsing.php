@@ -3,7 +3,7 @@ include('dataPaths.inc');
 
 function getEntireAuroraData($dataType, $detectorID) {
 	global $DATA_DIR;
-	$file = $DATA_DIR.$detectorID.'/'.date('Y-m-d', mktime(0,0,0,date('m'),date('d'),date('Y'))).'.txt';
+	$file = $DATA_DIR.$detectorID.'/'.date('Y-m-d', mktime(0,0,0,date('m'),date('d'),date('Y'))).'.csv';
 	if( file_exists($file) ){
 		$handle = fopen($file,"r");
 		
