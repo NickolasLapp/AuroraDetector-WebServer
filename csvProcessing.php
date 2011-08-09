@@ -84,7 +84,7 @@ Main function to retrieve an aurora array based on date.
 @param 		the date to be used.
 @param... 	the columns to output.
 */
-private function buildDataArray($date, $columns) {
+function buildDataArray($date, $columns) {
 	$directoriesForDetectors = getDetectorIDs();
 	foreach ($directoriesForDetectors as $ID) {
 		if (doesDateFileExist($ID, $date)) {
