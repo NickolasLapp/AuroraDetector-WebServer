@@ -121,23 +121,23 @@
 							
 	
 							if ($data_array[$UTC_time->format('Y-m-d H:i')][$offset] == NULL) {
-								$data_array[$UTC_time->format('Y-m-d H:i')][$offset] = $data[$PMT5577DN_col];
+								$data_array[$UTC_time->format('Y-m-d H:i')][$offset] = $data[$PMT5577rad_col];
 								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+1] = $data[$PMT6300DN_col];
 								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+2] = $data[$PMT4278DN_col];
-								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+3] = $data[$PD1DN_col];
+								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+3] = $data[$PD1rad_col];
 								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+4] = $data[$PD2DN_col];
 							} else {
 								// Take the max of the values in the minute.  This will hopefully give a better representation of a time-varying aurora.
-								$max_PMT5577DN = max($data_array[$UTC_time->format('Y-m-d H:i')][2], $data[$PMT5577DN_col]);
+								$max_PMT5577DN = max($data_array[$UTC_time->format('Y-m-d H:i')][2], $data[$PMT5577rad_col]);
 								$max_PMT6300DN = max($data_array[$UTC_time->format('Y-m-d H:i')][3], $data[$PMT6300DN_col]);
 								$max_PMT4278DN = max($data_array[$UTC_time->format('Y-m-d H:i')][4], $data[$PMT4278DN_col]);
-								$max_PD1DN = max($data_array[$UTC_time->format('Y-m-d H:i')][5], $data[$PD1DN_col]);
+								$max_PD1DN = max($data_array[$UTC_time->format('Y-m-d H:i')][5], $data[$PD1rad_col]);
 								$max_PD2DN = max($data_array[$UTC_time->format('Y-m-d H:i')][6], $data[$PD2DN_col]);
 								//$data_array[$UTC_time->format('Y-m-d H:i')] = array($UTC_time->format('Y-m-d H:i'), $local_time->format('Y-m-d H:i'), $max_PMT5577DN, $max_PMT6300DN, $max_PMT4278DN, $max_PD1DN, $max_PD2DN);
-								$data_array[$UTC_time->format('Y-m-d H:i')][$offset] = $max_PMT5577DN;
+								$data_array[$UTC_time->format('Y-m-d H:i')][$offset] = $max_PMT5577rad;
 								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+1] = $max_PMT6300DN;
 								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+2] = $max_PMT4278DN;
-								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+3] = $max_PD1DN;
+								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+3] = $max_PD1rad;
 								$data_array[$UTC_time->format('Y-m-d H:i')][$offset+4] = $max_PD2DN ;
 							}
 						}
