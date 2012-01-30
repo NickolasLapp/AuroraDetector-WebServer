@@ -49,6 +49,31 @@ if(isset($_POST['submitted']))
     <input type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" /><br/>
     <span id='register_username_errorloc' class='error'></span>
 </div>
+<div class='container'>
+    <label for='phone' >Phone Number (optional):</label><br/>
+    <input type='text' name='phone' id='phone' value='<?php echo $fgmembersite->SafeDisplay('phone') ?>' maxlength="50" /><br/>
+    <span id='register_phone_errorloc' class='error'></span>
+</div>
+<div class='container'>
+    <label for='carrier' >Carrier (e.g: Verizon, AT&T, etc.) (optional):</label><br/>
+	<select name='carrier' id='carrier'>
+		<option value="unselected">Please Select from the List</option>
+  		<option value="verizon">Verizon Wireless</option>
+  		<option value="at&t">AT&T Mobility</option>
+  		<option value="sprint">Sprint Nextel</option>
+  		<option value="t-mobile">T-Mobile USA</option>
+		<option value="tracfone">TracFone Wireless</option>
+		<option value="metropcs">MetroPCS</option>
+		<option value="uscellular">U.S. Cellular</option>
+		<option value="cricket">Cricket Wireless</option>
+		<option value="alltel">Alltel</option>
+		<option value="bigskymobile">Big Sky Mobile</option>
+		<option value="cellone">Cellular One</option>
+		<option value="midrivers">Mid Rivers Wireless</option>
+		<option value="nemont">Nemont Wireless</option>
+	</select>
+    <span id='register_carrier_errorloc' class='error'></span>
+</div>
 <div class='container' style='height:80px;'>
     <label for='password' >Password*:</label><br/>
     <div class='pwdwidgetdiv' id='thepwddiv' ></div>

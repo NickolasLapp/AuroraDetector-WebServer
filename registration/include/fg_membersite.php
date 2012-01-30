@@ -314,7 +314,7 @@ class FGMembersite
         $mailer->Body ="Hello ".$user_rec['name']."\r\n\r\n".
         "Welcome! Your registration with the Montana Aurora Detector Network is completed.\r\n".
         "\r\n".
-		"Please keep in mind that many features of the Montana Aurora Detector Network is still in Beta\r\n".
+		"Please keep in mind that many features of the Montana Aurora Detector Network are still in Beta\r\n".
 		"You will be emailed on major updates to the system when they happen, features such as:\r\n".
 		"*Email notification\r\n".
 		"*Text notification\r\n".
@@ -409,6 +409,8 @@ class FGMembersite
         $formvars['name'] = $this->Sanitize($_POST['name']);
         $formvars['email'] = $this->Sanitize($_POST['email']);
         $formvars['username'] = $this->Sanitize($_POST['username']);
+		$formvars['phone'] = $this->Sanitize($_POST['phone']);
+		$formvars['carrier'] = $this->Sanitize($_POST['carrier']);
         $formvars['password'] = $this->Sanitize($_POST['password']);
     }
     
@@ -437,8 +439,9 @@ class FGMembersite
         $confirmcode = $formvars['confirmcode'];
         
         //$confirm_url = $this->GetAbsoluteURLFolder().'/confirmreg.php?code='.$confirmcode;
-		$confirm_url = "http://orsl.coe.montana.edu/aurora/registration".'/confirmreg.php?code='.$confirmcode;
-        
+		//$confirm_url = "http://orsl.coe.montana.edu/aurora/registration".'/confirmreg.php?code='.$confirmcode;
+        //TODO: This needs to be changed
+		
         $confirmMailer->Body ="Hello ".$formvars['name']."\r\n\r\n".
         "Thanks for your registration with the Montana Aurora Detector Network\r\n".
         "Please click the link below to confirm your registration.\r\n".
@@ -607,6 +610,8 @@ class FGMembersite
                 name,
                 email,
                 username,
+				phone_number,
+				carrier,
                 password,
                 confirmcode
                 )
@@ -615,6 +620,8 @@ class FGMembersite
                 "' . $this->SanitizeForSQL($formvars['name']) . '",
                 "' . $this->SanitizeForSQL($formvars['email']) . '",
                 "' . $this->SanitizeForSQL($formvars['username']) . '",
+				"' . $this->SanitizeForSQL($formvars['phone']) . '",
+				"' . $this->SanitizeForSQL($formvars['carrier']) . '",
                 "' . md5($formvars['password']) . '",
                 "' . $confirmcode . '"
                 )';      
