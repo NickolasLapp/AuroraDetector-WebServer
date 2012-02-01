@@ -16,7 +16,7 @@ if(isset($_POST['submitted']))
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
     <title>Contact us</title>
     <link rel="STYLESHEET" type="text/css" href="registration/style/fg_membersite.css" />
-    <script type='text/javascript' src='registration/scripts/gen_validatorv31.js'></script>
+    <script type='text/javascript' src='registration/scripts/gen_validatorv4.js'></script>
     <link rel="STYLESHEET" type="text/css" href="registration/style/pwdwidget.css" />
     <script src="registration/scripts/pwdwidget.js" type="text/javascript"></script>      
 </head>
@@ -104,7 +104,7 @@ Uses the excellent form validation script from JavaScript-coder.com-->
 
     frmvalidator.addValidation("email","req","Please provide your email address");
 
-    frmvalidator.addValidation("email","email","Please provide a valid email address");
+    //frmvalidator.addValidation("email","email","Please provide a valid email address");
 
     frmvalidator.addValidation("username","req","Please provide a username");
 
