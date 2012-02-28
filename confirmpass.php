@@ -1,11 +1,11 @@
 <?PHP
 require_once("./include/membersite_config.php");
 
-if(isset($_GET['password']))
+if(isset($_GET['code']))
 {
-   if($fgmembersite->UpdateDBRecForForgotPassword())
+   if($fgmembersite->ConfirmForgotPassword())
    {
-        $fgmembersite->RedirectToURL("changed-password.html");
+        $fgmembersite->RedirectToURL("changepass.php");
    }
 }
 

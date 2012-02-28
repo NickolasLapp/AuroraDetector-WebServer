@@ -169,8 +169,7 @@ class FGMembersite
 	{
 		$user_cred = array();
 		
-		//Code to include $_GET['email'] to add into $user_cred['email']
-		//Code to sanitize the $user_cred['email']
+		$user_cred['email'] = $this->SanitizeForSQL($_GET['email']);
 		
 		if(!$this->IsFieldUnique($user_cred,'email'))
         {
@@ -181,14 +180,23 @@ class FGMembersite
         $row = mysql_fetch_assoc($result);
         $user_cred['name'] 		= $row['name'];
 		$user_cred['username'] 	= $row['username'];
-		require("forgotPasswordConfirmation.php");
+		require("forgotPasswordConfirmation.inc");
 		
 		$this->SendUserForgotPasswordEmail($user_cred);
         return true;
-			
-			
-			
+	}
+	
+	function ConfirmForgotPassword()
+	{
+		if(empty($_GET['code'])||strlen($_GET['code'])<=31)
+        {
+            $this->HandleError("Please provide the confirm code");
+            return false;
+        }
+        $user_cred = array();
+		//Check to see if the code exists in the DB
 		
+        return true;
 	}
     
     //-------Public Helper functions -------------
@@ -315,26 +323,16 @@ class FGMembersite
         return true;
     }
 	
-	function UpdateDBRecForForgotPassword(&$user_rec)
+	function UpdateDBRecForForgotPassword($password,$email)
 	{
 		if(!$this->DBLogin())
         {
             $this->HandleError("Database login failed!");
             return false;
         }   
-        $confirmcode = $this->SanitizeForSQL($_GET['password']);
+        $confirmcode = $this->SanitizeForSQL($password);
         
-        $result = mysql_query("Select name, email from $this->tablename where confirmcode='$confirmcode'",$this->connection);   
-        if(!$result || mysql_num_rows($result) <= 0)
-        {
-            $this->HandleError("Wrong confirm code.");
-            return false;
-        }
-        $row = mysql_fetch_assoc($result);
-        $user_rec['name'] = $row['name'];
-        $user_rec['email']= $row['email'];
-        
-        $qry = "Update $this->tablename Set confirmcode='y' Where  confirmcode='$confirmcode'";
+        $qry = "Update $this->tablename Set confirmcode='".md5($password)."' Where  email='$email'";
         
         if(!mysql_query( $qry ,$this->connection))
         {
@@ -343,7 +341,7 @@ class FGMembersite
         }      
         return true;
 	}
-    
+	
     function SendUserWelcomeEmail(&$user_rec)
     {
 		global $gAddress, $gPassword, $gPort;
@@ -388,7 +386,7 @@ class FGMembersite
         return true;
     }
 	
-	function SendUserForgotPasswordEmail(&$user_rec,$username,$fullName,$forgotcode)
+	function SendUserForgotPasswordEmail(&$user_cred)
 	{
 		global $gAddress, $gPassword, $gPort;
         $mailer = new PHPMailer();
@@ -404,16 +402,16 @@ class FGMembersite
         
         $mailer->CharSet = 'utf-8';
         
-        $mailer->AddAddress($user_rec['email'],$user_rec['name']);
+        $mailer->AddAddress($user_cred['email'],$user_cred['name']);
         
         $mailer->Subject = "Forgot password to ".$this->sitename;
 
         $mailer->From = $this->GetFromAddress();
 		        
-        $mailer->Body ="Hello ".$fullName."\r\n\r\n".
-        "Your username and email is as follows.\r\n".
+        $mailer->Body ="Hello ".$user_cred['name']."\r\n\r\n".
+        "Your username is as follows.\r\n".
         "\r\n".
-		"Username:".$username.
+		"Username:".$user_cred['username']."\r\n".
 		"Please click the link below to change your password\r\n".
 		"http://aurora.montana.edu".'/changepass.php?code='.$forgotcode;
 		"\r\n\r\n".
