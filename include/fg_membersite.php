@@ -195,7 +195,12 @@ class FGMembersite
         }
 		//Check to see if the code exists in the DB
 		$username = mysql_query("Select username from $this->tablename where password='".$_GET['code']."'",$this->connection); 
-				
+		if ($username == FALSE)
+		{
+			$this->HandleError("The confirmation code is invalid.");
+			return false;
+		}
+		session_start();
         $_SESSION[$this->GetLoginSessionVar()] = $username;
 		
         return true;
@@ -332,14 +337,14 @@ class FGMembersite
             $this->HandleError("Database login failed!");
             return false;
         }   
-		$forgotcode = $_GET['code'];
-        $confirmcode = $this->SanitizeForSQL($password);
+		$newpass = $_GET['password'];
+		$username = $_SESSION[$this->GetLoginSessionVar()];
         
-        $qry = "Update $this->tablename Set confirmcode='".md5($password)."' Where  email='$email'";
+        $qry = "Update $this->tablename Set password='".md5($newpass)."' Where  username='$email'";
         
-        if(!mysql_query( $qry ,$this->connection))
+        if(!mysql_query($qry ,$this->connection))
         {
-            $this->HandleDBError("Error inserting data to the table\nquery:$qry");
+            $this->HandleDBError("Error inserting data to the table.");
             return false;
         }      
         return true;

@@ -7,7 +7,6 @@ if(!$fgmembersite->CheckLogin())
 }
 else
 {
-		
 	if(isset($_GET['password']))
 	{
 	   if($fgmembersite->UpdateDBRecForForgotPassword())
@@ -62,7 +61,7 @@ Uses the excellent form validation script from JavaScript-coder.com-->
     var frmvalidator  = new Validator("newpass");
     frmvalidator.EnableOnPageErrorDisplay();
     frmvalidator.EnableMsgsTogether();
-    frmvalidator.addValidation("confpassword","equelment=password","The confirmed password is not the same as password.");
+    frmvalidator.addValidation("confpassword","eqelmnt=password","The confirmed passwords do not match.");
 	frmvalidator.addValidation("password","req","Please enter a new password.")
 
 // ]]>
