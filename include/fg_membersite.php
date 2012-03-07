@@ -193,8 +193,10 @@ class FGMembersite
             $this->HandleError("Please provide the confirm code");
             return false;
         }
-        $user_cred = array();
 		//Check to see if the code exists in the DB
+		$username = mysql_query("Select username from $this->tablename where password='".$_GET['code']."'",$this->connection); 
+				
+        $_SESSION[$this->GetLoginSessionVar()] = $username;
 		
         return true;
 	}
@@ -323,13 +325,14 @@ class FGMembersite
         return true;
     }
 	
-	function UpdateDBRecForForgotPassword($password,$email)
+	function UpdateDBRecForForgotPassword()
 	{
 		if(!$this->DBLogin())
         {
             $this->HandleError("Database login failed!");
             return false;
         }   
+		$forgotcode = $_GET['code'];
         $confirmcode = $this->SanitizeForSQL($password);
         
         $qry = "Update $this->tablename Set confirmcode='".md5($password)."' Where  email='$email'";
@@ -413,7 +416,7 @@ class FGMembersite
         "\r\n".
 		"Username:".$user_cred['username']."\r\n".
 		"Please click the link below to change your password\r\n".
-		"http://aurora.montana.edu".'/changepass.php?code='.$forgotcode;
+		"http://aurora.montana.edu".'/confirmpass.php?code='.$forgotcode;
 		"\r\n\r\n".
         "Regards,\r\n".
         "The MADN Team\r\n".

@@ -1,12 +1,20 @@
 <?PHP
 require_once("./include/membersite_config.php");
 
-if(isset($_GET['password']))
+if(!$fgmembersite->CheckLogin())
 {
-   if($fgmembersite->UpdateDBRecForForgotPassword())
-   {
-        $fgmembersite->RedirectToURL("changed-password.html");
-   }
+	$fgmembersite->RedirectToURL("forgot-password.php")
+}
+else
+{
+		
+	if(isset($_GET['password']))
+	{
+	   if($fgmembersite->UpdateDBRecForForgotPassword())
+	   {
+	        $fgmembersite->RedirectToURL("changed-password.html");
+	   }
+	}
 }
 
 ?>
@@ -22,16 +30,21 @@ if(isset($_GET['password']))
 
 <h2>Confirm registration</h2>
 <p>
-Please enter the confirmation code in the box below
+Please enter the new password in the boxes below
 </p>
 
 <!-- Form Code Start -->
 <div id='fg_membersite'>
-<form id='confirm' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='get' accept-charset='UTF-8'>
+<form id='newpass' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='get' accept-charset='UTF-8'>
 <div class='short_explanation'>* required fields</div>
 <div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
 <div class='container'>
-    <label for='code' >Confirmation Code:* </label><br/>
+    <label for='password' >New Password:* </label><br/>
+    <input type='text' name='code' id='code' maxlength="50" /><br/>
+    <span id='register_code_errorloc' class='error'></span>
+</div>
+<div class='container'>
+    <label for='confpassword' >Confirm New Password:* </label><br/>
     <input type='text' name='code' id='code' maxlength="50" /><br/>
     <span id='register_code_errorloc' class='error'></span>
 </div>
@@ -46,10 +59,11 @@ Uses the excellent form validation script from JavaScript-coder.com-->
 <script type='text/javascript'>
 // <![CDATA[
 
-    var frmvalidator  = new Validator("confirm");
+    var frmvalidator  = new Validator("newpass");
     frmvalidator.EnableOnPageErrorDisplay();
     frmvalidator.EnableMsgsTogether();
-    frmvalidator.addValidation("code","req","Please enter the confirmation code");
+    frmvalidator.addValidation("confpassword","equelment=password","The confirmed password is not the same as password.");
+	frmvalidator.addValidation("password","req","Please enter a new password.")
 
 // ]]>
 </script>
