@@ -82,6 +82,13 @@ if(isset($_POST['submitted']))
     </noscript>    
     <div id='register_password_errorloc' class='error' style='clear:both'></div>
 </div>
+<div class='container'>
+    <label for='confpassword' >Confirm Password*:</label><br/>
+    <div class='pwdwidgetdiv' id='thepwddiv' ></div>
+	<noscript>
+    <input type='password' name='password' id='password' maxlength="50" /><br/>
+	</noscript>
+</div>
 
 <div class='container'>
     <input type='submit' name='Submit' value='Submit' />
@@ -104,11 +111,13 @@ Uses the excellent form validation script from JavaScript-coder.com-->
 
     frmvalidator.addValidation("email","req","Please provide your email address");
 
-    //frmvalidator.addValidation("email","email","Please provide a valid email address");
+    frmvalidator.addValidation("email","email","Please provide a valid email address");
 
     frmvalidator.addValidation("username","req","Please provide a username");
 
     frmvalidator.addValidation("password","req","Please provide a password");
+	
+	frmvalidator.addValidation("confpassword","eqelment=password","Passwords do not match")
 
 // ]]>
 </script>
