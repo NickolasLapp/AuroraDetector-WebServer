@@ -171,6 +171,12 @@ class FGMembersite
 		
 		$user_cred['email'] = $this->SanitizeForSQL($_GET['email']);
 		
+		if(!$this->DBLogin())
+        {
+            $this->HandleError("Database login failed!");
+            return false;
+        } 
+		
 		if(!$this->IsFieldUnique($user_cred,'email'))
         {
 			$this->HandleError("Email does not exist");
@@ -340,7 +346,30 @@ class FGMembersite
 		$newpass = $_GET['password'];
 		$username = $_SESSION[$this->GetLoginSessionVar()];
         
-        $qry = "Update $this->tablename Set password='".md5($newpass)."' Where  username='$email'";
+        $qry = "Update $this->tablename Set password='".md5($newpass)."' Where  username='$username'";
+        
+        if(!mysql_query($qry ,$this->connection))
+        {
+            $this->HandleDBError("Error inserting data to the table.");
+            return false;
+        }      
+        return true;
+	}
+	
+	function UpdateDBRecForData($data)
+	{
+		if(!$this->DBLogin())
+        {
+            $this->HandleError("Database login failed!");
+            return false;
+        }   
+		if(!$this->CheckLogin())
+		{
+			$this->HandleError("Not logged in!");
+			return false;
+		}
+		$username = $_SESSION[$this->GetLoginSessionVar()];
+        $qry = "Update $this->tablename Set data='$data' Where username='$username'";
         
         if(!mysql_query($qry ,$this->connection))
         {
@@ -785,6 +814,50 @@ class FGMembersite
             $str = stripslashes($str);
         }
         return $str;
-    }    
+    }
+	
+	
+	//////////////////////////////////////
+	/////External Use Functions///////////
+	//////////////////////////////////////
+	
+	function GetUserDataValues()
+	{
+		if(!$this->DBLogin())
+		{
+		    $this->HandleError("Database login failed!");
+		    return false;
+		} 
+		
+		$qry = "Select name, email, phone_number, carrier, username from ".$this->tablename." where username='".$_SESSION[$this->GetLoginSessionVar()]."'";
+		
+		$result = mysql_query($qry,$this->connection);
+		
+		$row = mysql_fetch_assoc($result);
+		
+		return $row;
+	}
+	
+	function getAlertSettings()
+	{		
+		$output = array();
+		if(!$this->DBLogin())
+		{
+		    $this->HandleError("Database login failed!");
+		    return false;
+		}
+		
+		$qry = "Select data from ".$this->tablename." where username='".$_SESSION[$this->GetLoginSessionVar()]."'";
+		if(!$result = mysql_query($qry, $this->connection))
+		{
+			$this->HandleError("Query failed!");
+			return false;
+		}
+		$result = mysql_fetch_assoc($result);
+		$output = json_decode($result['data'], TRUE);
+		 
+		return $output;
+	}
+	
 }
 ?>
