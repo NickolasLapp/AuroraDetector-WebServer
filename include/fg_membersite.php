@@ -348,7 +348,7 @@ class FGMembersite
 		
 		$result = mysql_query($qry,$this->connection);
 		
-		$returnText = '';
+		$returnArray = array();
 		
 		while ($row = mysql_fetch_assoc($result)) {
 			$user = array(
@@ -359,10 +359,10 @@ class FGMembersite
 			"username" 		=> $row["username"]
 			);
 			
-			$returnText .= json_encode($user); 
+			array_push($returnArray, $user);
 		}
 		
-		return $returnText;
+		return json_encode($returnArray);
 		
 	}
 	
