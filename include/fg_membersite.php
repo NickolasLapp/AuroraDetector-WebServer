@@ -348,9 +348,22 @@ class FGMembersite
 		
 		$result = mysql_query($qry,$this->connection);
 		
-		$row = mysql_fetch_assoc($result);
+		$returnText = '';
 		
-		return $row['name'];
+		while ($row = mysql_fetch_assoc($result)) {
+			$user = array(
+			"name" 			=> $row["name"],
+			"email" 		=> $row["email"],
+			"phone_number" 	=> $row["phone_number"],
+			"carrier"		=> $row["carrier"],
+			"username" 		=> $row["username"]
+			);
+			
+			$returnText .= json_encode($user); 
+		}
+		
+		return $returnText;
+		
 	}
 	
 	function UpdateDBRecForForgotPassword()
