@@ -336,6 +336,23 @@ class FGMembersite
         return true;
     }
 	
+	function ReturnSystemUsers()
+	{
+		if(!$this->DBLogin())
+		{
+		    $this->HandleError("Database login failed!");
+		    return false;
+		} 
+		
+		$qry = "Select name, email, phone_number, carrier, username from ".$this->tablename;
+		
+		$result = mysql_query($qry,$this->connection);
+		
+		$row = mysql_fetch_assoc($result);
+		
+		return $row['name'];
+	}
+	
 	function UpdateDBRecForForgotPassword()
 	{
 		if(!$this->DBLogin())
