@@ -344,7 +344,7 @@ class FGMembersite
 		    return false;
 		} 
 		
-		$qry = "Select name, email, phone_number, carrier, username from ".$this->tablename;
+		$qry = "Select name, email, phone_number, carrier, username from ".$this->tablename." WHERE CHAR_LENGTH(phone_number) = 10 GROUP BY carrier";
 		
 		$result = mysql_query($qry,$this->connection);
 		
@@ -364,6 +364,38 @@ class FGMembersite
 		
 		return json_encode($returnArray);
 		
+	}
+	
+	function UnsubscribeUser($passedSignature, $phone_number, $expiration, $email)
+	{
+		if(!$this->DBLogin())
+		{
+		    $this->HandleError("Database login failed!");
+		    return false;
+		} 
+		
+		$phone_number = $this->SanitizeForSQL($phone_number);
+		$email = $this->SanitizeForSQL($email);
+
+		$qry = "SELECT * FROM ".$this->tablename." WHERE email = \"".$email."\" AND phone_number =".$phone_number;
+		$result = mysql_query($qry,$this->connection);
+		
+		if(mysql_num_rows($result) != 1)
+        {
+            $this->HandleError("Error logging in. The username or password does not match");
+            return 'Unable to Find User/Too Many Users.';
+        }
+		
+		$row = mysql_fetch_assoc($result);
+		
+		$encodeString = $email . $phone_number . $expiration;
+		$generatedSignature = hash_hmac("md5",$encodeString, "AURORASERVERSECRETKEY");
+		
+		if($generatedSignature != $passedSignature)
+			return 'Unsubscribe Unsuccessful: Invalid Unsubscribe Link';
+		else if (time() - (60*60*24*9) > strtotime($expiration))
+			return 'Unsubscribe Unsuccessful: Unsubscribe Link Expired';
+		return 'Unsubscribe Successful';
 	}
 	
 	function UpdateDBRecForForgotPassword()
