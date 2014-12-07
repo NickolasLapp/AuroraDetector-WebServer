@@ -153,6 +153,11 @@ class FGMembersite
     {
         return isset($_SESSION['email_of_user'])?$_SESSION['email_of_user']:'';
     }
+	
+	function UserPhoneNumber()
+	{
+	    return isset($_SESSION['user_phone_number'])?$_SESSION['user_phone_number']:'';
+	}
     
     function LogOut()
     {
@@ -288,7 +293,7 @@ class FGMembersite
         }          
         $username = $this->SanitizeForSQL($username);
         $pwdmd5 = md5($password);
-        $qry = "Select name, email from $this->tablename where username='$username' and password='$pwdmd5' and confirmcode='y'";
+        $qry = "Select name, email, phone_number from $this->tablename where username='$username' and password='$pwdmd5' and confirmcode='y'";
         
         $result = mysql_query($qry,$this->connection);
         
@@ -303,6 +308,8 @@ class FGMembersite
         
         $_SESSION['name_of_user']  = $row['name'];
         $_SESSION['email_of_user'] = $row['email'];
+		$_SESSION['user_phone_number'] = $row['phone_number'];
+
         
         return true;
     }
@@ -383,7 +390,8 @@ class FGMembersite
 		if(mysql_num_rows($result) != 1)
         {
             $this->HandleError("Error logging in. The username or password does not match");
-            return 'Unable to Find User/Too Many Users.';
+            return 'Unsubscribe Unsuccessful: Unable to find your user combination. Please return to the login page and try again.\n'.
+						'If problems persist, please send an email to jshaw@montana.edu';
         }
 		
 		$row = mysql_fetch_assoc($result);
@@ -392,10 +400,17 @@ class FGMembersite
 		$generatedSignature = hash_hmac("md5",$encodeString, "AURORASERVERSECRETKEY");
 		
 		if($generatedSignature != $passedSignature)
-			return 'Unsubscribe Unsuccessful: Invalid Unsubscribe Link';
+			return 'Unsubscribe Unsuccessful: Invalid Unsubscribe Link. Please return to the login page and try again.\n'.
+						'If problems persist, please send an email to jshaw@montana.edu';
 		else if (time() - (60*60*24*9) > strtotime($expiration))
 			return 'Unsubscribe Unsuccessful: Unsubscribe Link Expired';
-		return 'Unsubscribe Successful';
+		return 'You have successfully unsubscribed from Aurora Alerts.';
+	}
+	
+	function GetHashedInfo()
+	{
+		$encodeString = $this->UserEmail() . $this->UserPhoneNumber() . date('Y-m-d', time());
+		return hash_hmac("md5",$encodeString, "AURORASERVERSECRETKEY");
 	}
 	
 	function UpdateDBRecForForgotPassword()

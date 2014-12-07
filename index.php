@@ -92,6 +92,12 @@ require_once("./include/membersite_config.php");
 					echo "<p style='text-align:right'>";
 						echo "<a href='logout.php'>Sign out</a>";
 					echo "</p>";	
+					echo "<p style='text-align:right'>";
+						echo "<a href='unsubscribe.php?signature=" . $fgmembersite->GetHashedInfo().
+							"&email=".$fgmembersite->UserEmail().
+							"&phone_number=".$fgmembersite->UserPhoneNumber().
+							"&expiration=".date('Y-m-d', time())."'>Unsubscribe</a>";
+					echo "</p>";	
 				}
 			?>
 		</div>
