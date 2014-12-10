@@ -351,7 +351,34 @@ class FGMembersite
 		    return false;
 		} 
 		
-		$qry = "Select name, email, phone_number, carrier, username from ".$this->tablename." WHERE CHAR_LENGTH(phone_number) = 10 GROUP BY carrier";
+		//Testing information. 
+		
+		$returnArray = array();
+		
+		array_push($returnArray, array("name" => "Nickolas Lapp",
+									   "email" => "nickolaslapp@gmail.com",
+									   "phone_number" => "971-285-0998", 
+									   "carrier" => "at&t",
+									   "username" => "nickolaslapp"));
+		
+		
+		array_push($returnArray, array("name" => "Nick Lapp",
+									   "email" => "nick_lapp@yahoo.com",
+									   "phone_number" => "9712850998", 
+									   "carrier" => "at&t",
+									   "username" => "nicklapp"));
+					
+		array_push($returnArray, array("name" => "Victoria Kong",
+									   "email" => "queenkong234@gmail.com",
+									   "phone_number" => "503-713-7709", 
+									   "carrier" => "verizon",
+									   "username" => "queenkong234"));
+									   
+		return json_encode($returnArray);
+		
+		
+		/*
+		$qry = "Select name, email, phone_number, carrier, username from ".$this->tablename;
 		
 		$result = mysql_query($qry,$this->connection);
 		
@@ -369,7 +396,7 @@ class FGMembersite
 			array_push($returnArray, $user);
 		}
 		
-		return json_encode($returnArray);
+		return json_encode($returnArray);*/
 		
 	}
 	
@@ -384,14 +411,18 @@ class FGMembersite
 		$phone_number = $this->SanitizeForSQL($phone_number);
 		$email = $this->SanitizeForSQL($email);
 
-		$qry = "SELECT * FROM ".$this->tablename." WHERE email = \"".$email."\" AND phone_number =".$phone_number;
+		$qry = "SELECT * FROM ".$this->tablename." WHERE email = \"".$email."\"";
+		
+		if(strlen($phone_number) > 0)
+			$qry .= "AND phone_number =".$phone_number;
+			
 		$result = mysql_query($qry,$this->connection);
 		
 		if(mysql_num_rows($result) != 1)
         {
             $this->HandleError("Error logging in. The username or password does not match");
-            return 'Unsubscribe Unsuccessful: Unable to find your user combination. Please return to the login page and try again.\n'.
-						'If problems persist, please send an email to jshaw@montana.edu';
+            return 'Unsubscribe Unsuccessful: Unable to find your user combination. Please return to the login page and try again.'.
+						'If problems persist, please send an email to aurora.montana@gmail.edu';
         }
 		
 		$row = mysql_fetch_assoc($result);
@@ -400,11 +431,22 @@ class FGMembersite
 		$generatedSignature = hash_hmac("md5",$encodeString, "AURORASERVERSECRETKEY");
 		
 		if($generatedSignature != $passedSignature)
-			return 'Unsubscribe Unsuccessful: Invalid Unsubscribe Link. Please return to the login page and try again.\n'.
-						'If problems persist, please send an email to jshaw@montana.edu';
+			return 'Unsubscribe Unsuccessful: Invalid Unsubscribe Link. Please return to the login page and try again.'.
+						'If problems persist, please send an email to aurora.montana@gmail.com';
 		else if (time() - (60*60*24*9) > strtotime($expiration))
 			return 'Unsubscribe Unsuccessful: Unsubscribe Link Expired';
-		return 'You have successfully unsubscribed from Aurora Alerts.';
+			
+		//Passed tests, now unsubscribe
+		$qry = str_replace("SELECT * ", "DELETE ", $qry);
+		
+		if (mysql_query($qry, $this->connection)) {
+			return 'You have successfully unsubscribed from Aurora Alerts.';
+		} else {
+			return 'Error deleting User. Please return to the login page and try again.'.
+				'If problems persist, please send an email to aurora.montanna@gmail.com';
+		}
+		
+		
 	}
 	
 	function GetHashedInfo()
