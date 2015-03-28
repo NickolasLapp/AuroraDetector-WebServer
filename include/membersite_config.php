@@ -20,6 +20,11 @@ $fgmembersite->InitDB(/*hostname*/$host,
                       /*database name*/$db,
                       /*table name*/$tbl);
 
+$fgmembersite->InitMaxDB(/*hostname*/$maxHost,
+                      /*username*/$maxUser,
+                      /*password*/$maxPass,
+                      /*database name*/$maxDB);
+
 //For better security. Get a random string from this link: http://tinyurl.com/randstr
 // and put it here
 $fgmembersite->SetRandomKey($passkey);

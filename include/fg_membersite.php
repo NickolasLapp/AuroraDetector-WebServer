@@ -36,6 +36,15 @@ class FGMembersite
         $this->tablename = $tablename;
         
     }
+    
+    function InitMaxDB($host, $uname, $pwd, $database, $tablename)
+    {
+        $this->max_db_host  = $host;
+        $this->max_username = $uname;
+        $this->max_pwd  = $pwd;
+        $this->max_database  = $database;
+    }
+    
     function SetAdminEmail($email)
     {
         $this->admin_email = $email;
@@ -819,6 +828,29 @@ class FGMembersite
         return true;
     }    
     
+    function maxDBLogin()
+    {
+
+        $this->maxConnection = mysql_connect($this->max_db_host,$this->max_username,$this->max_pwd);
+
+        if(!$this->maxConnection)
+        {   
+            $this->HandleDBError("Database Login failed! Please make sure that the DB login credentials provided are correct");
+            return false;
+        }
+        if(!mysql_select_db($this->max_database, $this->maxConnection))
+        {
+            $this->HandleDBError('Failed to select database: '.$this->max_database.' Please make sure that the database name provided is correct');
+            return false;
+        }
+        if(!mysql_query("SET NAMES 'UTF8'",$this->maxConnection))
+        {
+            $this->HandleDBError('Error setting utf8 encoding');
+            return false;
+        }
+        return true;
+    }    
+    
     function Ensuretable()
     {
         $result = mysql_query("SHOW COLUMNS FROM $this->tablename");   
@@ -955,6 +987,32 @@ class FGMembersite
 		$row = mysql_fetch_assoc($result);
 		
 		return $row;
+	}
+        
+        function GetArchivedData($startDate, $endDate, $detectors)
+	{
+            if(!$this->maxDBLogin())
+            {
+                $this->HandleError("Database login failed!");
+                return false;
+            }
+            ini_set('memory_limit', '-1');
+            $returnArray = array();
+            foreach($detectors as $detectorTableName)
+            {
+                $qry = "Select * from ".$detectorTableName." where ts >= '".$this->SanitizeForSQL($startDate)."' & ts <=  '".$this->SanitizeForSQL($endDate)."';";
+                $result = mysql_query($qry,$this->maxConnection);
+                $count = 0;
+                while ($row = mysql_fetch_assoc($result)) {
+                    $count++;
+                    $data = array("row"       => $row,
+                        );
+                    array_push($returnArray, $data);
+                    if($count > 558807) 
+                        return "more than: 558807";
+                }
+            }
+            return json_encode($returnArray);
 	}
 	
 	function getAlertSettings()

@@ -1,9 +1,35 @@
 <?php
 	include_once 'constants.php';
+        require_once("./include/membersite_config.php");
 ?>
 
 
 <script type="text/javascript">
+	$( "#processdates" ).click(function() {
+            if(validateDateRange())
+		{
+                    var startDate = $("#startdate").datepicker( "getDate" );
+                    var endDate = $("#enddate").datepicker( "getDate" );
+                    
+                    var xmlhttp=new XMLHttpRequest();
+                    xmlhttp.onreadystatechange=function(){
+                    if (xmlhttp.readyState===4 && xmlhttp.status===200)
+                        {
+                          document.getElementById("secondtab").innerHTML=xmlhttp.responseText;
+                        }
+                    };
+                    xmlhttp.open("POST","returnArchivedData.php?startdate="+startDate+"&endDate="+endDate,true);
+                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xmlhttp.send();
+                    }
+		else
+			alert( "Invalid Date Range. Please specify a valid date range");
+ 	});
+
+	function validateDateRange(){
+		return true;
+	}
+
 	function amChartInited(chart_id){
 		flashMovie = document.getElementById(chart_id);
 		flashMovie.reloadSettings(selected_settings);
@@ -20,7 +46,7 @@
 	
 	$(function(){
 		$( "#tab2_content" ).accordion({ animated: false, autoHeight: false });
-		$( "#selector" ).load('archive.php', function() {
+/*		$( "#selector" ).load('archive.php', function() {
  			selected_date = $(".chart_link:first").text();
 			$("#tab2_content").accordion( "activate", 1 );
 			$('#current_date').text( selected_date +' UTC');
@@ -36,18 +62,28 @@
 				
 				event.preventDefault(); 
 			});
-		});				
+		});			*/
 	});
+	
+  $(function() {
+    $( "#startdate" ).datepicker();
+	$( "#enddate" ).datepicker();
+  });
 </script>
 
 <div id="tab2_heading"><h4>Archived Data</h4></div>
 
 <div id="tab2_content" style="width: 800px;">
-	<h3><a href="#"><b>Select Date</b></a></h3>
-    <div id="selector" class="bordered_lrb" style="height: 300px; overflow: auto;">First content</div>
-    
-	<h3><a href="#"><b>Data For <span id="current_date"></span></b></a></h3>
-    <div class="bordered_lrb">
+	<h3><a href="#">Select Date</a></a></h3>
+	<div class="bordered_lrb">
+		<form>
+		  <p>Start Date:</p> <input type="text" id="startdate">
+		  <p>End Date:</p>   <input type="text" id="enddate"> 
+		  <p><input type="button" id="processdates" value="Retrieve Data"></p>
+		</form>
+	</div>
+	<h3><a href="#">Data For <span id="current_date"></span></a></h3>
+            <div id="secondtab" class="bordered_lrb">
 		<!-- amstock script-->
 		<script type="text/javascript" src="amstock/swfobject.js"></script>
 		<div id="flashcontent">
