@@ -117,7 +117,6 @@ require_once("./include/membersite_config.php");
 				<!-- <li><a href="archived.php">Archived Data</a></li> -->
 				<li><a href="#tabs-4">About Our Detectors</a></li>
 				<li><a href="#tabs-5">About The Auroral Oval</a></li>
-				<li><a href="#tabs-6">Linking To Our Site</a></li>
 				<li><a href="contact.html">Our Research</a></li>
 				<li><a href="#tabs-8">Contact Us</a></li>
 			</ul>
@@ -165,15 +164,26 @@ require_once("./include/membersite_config.php");
 					<small><center>The buttons in this dialog are for demonstration only. The states of these buttons will not effect the content on the map.</center></small>
 				</div>
 			</div>
-			<div id="tabs-4"><h4>Information About Our Detectors</h4>
-				
-			
+			<div id="tabs-4">
+				<h4>Information About Our Detectors</h4>
+				<br>
+				<br><img height="182" width="224" style="display: block; margin-left:auto; margin-right:auto" src='images/detector.jpg'>
+				<p style="width: 45em"> Pictured is the aurora detector located at MSU Bozeman on the roof of Cobleigh Hall. Skylight passes through a 10-nm interference filter and is focused by a lens onto a photomultiplier tube (PMT) detector 
+					whose output is sampled with a microcontroller and transmitted via Ethernet to a server at MSU, where a data processing algorithm determines whether an alarm signal should be sent.</p>
 			</div>
-			
-			<div id="tabs-5"><h4>Information About The Auroral Oval</h4></div>
-			<div id="tabs-6"><h4>Linking To Our Site</h4></div>
+			<div id="tabs-5">
+				<h4>Information About The Auroral Oval</h4>
+				<br>
+				<p style="width: 60em">The Auroral Oval is generated with <a href='http://www.swpc.noaa.gov/products/30-minute-aurora-forecast'>information</a> gathered by the National Oceanic and Atmospheric Administration (NOAA).
+					Data is generated through measurements of solar winds, which indicate the likelyhood of an Auroral storm occuring at the hemispheres. Though the Aurora is primarily in high-latitude
+					environments, high intensity solar storms can cause the Auroral Oval to extend down into Montana. The image below was taken by Dr. Joseph Shaw in Bozeman on May 3rd, 2010.
+					<br>
+					<img height="340" width="516" style="display: block; margin-left:auto; margin-right:auto"  src="images/AuroraExample.jpg">
+					<br>
+					The Auroral Oval indicates where the Aurora is likely visible. Darker regions indicate higher higher probability of seeing the Aurora, while lighter and clear regions indicate little to no chance of seeing the Aurora.
+					Data used to generate the Auroral Oval is updated every 5 minutes, so be sure to refresh your browser to see the most recent Auroral Oval.</p>
+			</div>
 			<div id="tabs-8"><a href="mailto:jshaw at montana dot edu">Contact Us</a></div>
-
 		</div>
 	</body>
 </html>
