@@ -24,43 +24,19 @@
         <drawOrder>5</drawOrder>
         
         <Icon>
-          <href>http://www.swpc.noaa.gov/pmap/GEpmap/GEpmapN.png</href> 
+          <href>http://192.168.137.2/aurora/test.png</href> 
           <refreshMode>onInterval</refreshMode>
           <refreshInterval>300</refreshInterval>
         </Icon>
         
         <LatLonBox id="northern overlay bounds">
 	  <north>90</north>
-	  <south>34</south>
+	  <south>-90</south>
 	  <west>-180</west>
 	  <east>180  </east>
          </LatLonBox>
          
       </GroundOverlay>
-    
-     
-      <GroundOverlay id="southern oval">
-      
-        <name>Southern Auroral Oval</name>
-        <color>FFFFFFFF</color>
-        <visibility>1</visibility>
-        <drawOrder>5</drawOrder>
-        
-        <Icon>
-          <href>http://www.swpc.noaa.gov/pmap/GEpmap/GEpmapS.png</href>
-          <refreshMode>onInterval</refreshMode>
-          <refreshInterval>300</refreshInterval>          
-        </Icon>
-        
-        <LatLonBox id="northern overlay bounds">
-	  <north>-34</north>
-	  <south>-90</south>
-	  <west>-180</west>
-	  <east>180  </east>
-        </LatLonBox>
-        
-      </GroundOverlay>
-    
     </Folder>
   </Document>
 </kml>

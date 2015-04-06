@@ -114,12 +114,12 @@ require_once("./include/membersite_config.php");
 						echo "<li><a href='controlPanel.php'>User Control Panel</a></li>";
 					}
 				?>
-				<li><a href="archived.php">Archived Data</a></li>
+				<!-- <li><a href="archived.php">Archived Data</a></li> -->
 				<li><a href="#tabs-4">About Our Detectors</a></li>
 				<li><a href="#tabs-5">About The Auroral Oval</a></li>
 				<li><a href="#tabs-6">Linking To Our Site</a></li>
 				<li><a href="contact.html">Our Research</a></li>
-				<li><a href="mailto:jshaw at montana dot edu">Contact Us</a></li>
+				<li><a href="#tabs-8">Contact Us</a></li>
 			</ul>
 			<div id="tabs-1">
 				<div id="tab1_heading">
@@ -165,9 +165,15 @@ require_once("./include/membersite_config.php");
 					<small><center>The buttons in this dialog are for demonstration only. The states of these buttons will not effect the content on the map.</center></small>
 				</div>
 			</div>
-			<div id="tabs-4"><h4>Information About Our Detectors</h4></div>
+			<div id="tabs-4"><h4>Information About Our Detectors</h4>
+				
+			
+			</div>
+			
 			<div id="tabs-5"><h4>Information About The Auroral Oval</h4></div>
 			<div id="tabs-6"><h4>Linking To Our Site</h4></div>
+			<div id="tabs-8"><a href="mailto:jshaw at montana dot edu">Contact Us</a></div>
+
 		</div>
 	</body>
 </html>

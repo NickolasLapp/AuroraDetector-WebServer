@@ -26,12 +26,12 @@ function loadKml(file) {
 	var ts = new Date().getTime();
 	if (file == 'full') {
 		//TODO: VERY IMPORTANT!! MAKE THESE DYNAMIC LINKS!!
-		var kmlUrl = 'http://orsl.eps.montana.edu/betaWebsite/aurora/AuroraNetwork_Web.php?time='+ts;
+		var kmlUrl = 'http://192.168.137.2/aurora/AuroraNetwork_Web.php?time='+ts;
 	} else if (file == 'abbrev') {
-		var kmlUrl = 'http://orsl.eps.montana.edu/betaWebsite/aurora/AuroraNetwork_Web-Abbreviated.php?time='+ts;
+		var kmlUrl = 'http://192.168.137.2/aurora/AuroraNetwork_Web-Abbreviated.php?time='+ts;
 	} else if (file == 'oval') {
 		//TODO: Figure out why the local file doesn't work!
-		var kmlUrl = 'http://www.coe.montana.edu/ee/weather/aurora/AuroraNetwork_Web-NOAAAuroralOval.kml'
+		var kmlUrl = 'http://192.168.137.2/aurora/AuroraNetwork_Web-NOAAAuroralOval.kml'
 	}
 	// fetch the KML
 	google.earth.fetchKml(ge, kmlUrl, function(kmlObject) {
