@@ -165,11 +165,19 @@ require_once("./include/membersite_config.php");
 				</div>
 			</div>
 			<div id="tabs-4">
-				<h4>Information About Our Detectors</h4>
+				<h1>Information About Our Detectors</h1>
+				<br>
+				<h3><b>What causes the Aurora?</b></h3>
+				<p style="width: 45em"><b>Excited Particles in our Atmosphere</b> cause the Aurora to become visible. Energy from the sun strikes our atmosphere, causing causes abundant Nitrogen and Oxygen to become excited, meaning that
+				   their electrons jump up to a higher energy state. These electrons eventually fall back to their ground state and they release the stored energy as light. This is the light that we see and recognize as the visible Aurora.</p>
+				<h1>How Do We Detect the Aurora?</h1>
+				<p style="width:45em"><b>The Light is Released</b> from the particles in our atmosphere at a specific wavelength. In the case of Oxygen emissions this light is approximately 557.7nm. This light is fed through a lens into our detector,
+					and we measure its intensity. We then also measure the total light from the sky, and compare the relative strengths. If the Aurora Green is more intense than the general light from the sky, we know that an Aurora is likely occuring!</p>
 				<br>
 				<br><img height="182" width="224" style="display: block; margin-left:auto; margin-right:auto" src='images/detector.jpg'>
 				<p style="width: 45em"> Pictured is the aurora detector located at MSU Bozeman on the roof of Cobleigh Hall. Skylight passes through a 10-nm interference filter and is focused by a lens onto a photomultiplier tube (PMT) detector 
-					whose output is sampled with a microcontroller and transmitted via Ethernet to a server at MSU, where a data processing algorithm determines whether an alarm signal should be sent.</p>
+					whose output is sampled with a microcontroller and transmitted via Ethernet to a server at MSU. Once the data arrives, a data processing algorithm determines whether an alarm signal should be sent.</p>
+				<br>
 			</div>
 			<div id="tabs-5">
 				<h4>Information About The Auroral Oval</h4>
@@ -178,12 +186,17 @@ require_once("./include/membersite_config.php");
 					Data is generated through measurements of solar winds, which indicate the likelyhood of an Auroral storm occuring at the hemispheres. Though the Aurora is primarily in high-latitude
 					environments, high intensity solar storms can cause the Auroral Oval to extend down into Montana. The image below was taken by Dr. Joseph Shaw in Bozeman on May 3rd, 2010.
 					<br>
-					<img height="340" width="516" style="display: block; margin-left:auto; margin-right:auto"  src="images/AuroraExample.jpg">
+					<br>
+					<img height="340" width="516" style="display: block; margin-left:auto; margin-right:auto"  src="images/auroraexample.jpg">
 					<br>
 					The Auroral Oval indicates where the Aurora is likely visible. Darker regions indicate higher higher probability of seeing the Aurora, while lighter and clear regions indicate little to no chance of seeing the Aurora.
 					Data used to generate the Auroral Oval is updated every 5 minutes, so be sure to refresh your browser to see the most recent Auroral Oval.</p>
 			</div>
-			<div id="tabs-8"><a href="mailto:jshaw at montana dot edu">Contact Us</a></div>
+			<div id="tabs-8">
+				<h3><a href="mailto:jshaw at montana dot edu">The Optical Remote Sensor Laboratory</a></h3>
+				<br>
+				<h3><a href="mailto:aurora.montana+webmaster@gmail.com">Webmaster</a></h3>
+			</div>
 		</div>
 	</body>
 </html>

@@ -24,7 +24,7 @@
         <drawOrder>5</drawOrder>
         
         <Icon>
-          <href>http://192.168.137.2/aurora/test.png</href> 
+          <href>images/auroraloval.png</href> 
           <refreshMode>onInterval</refreshMode>
           <refreshInterval>300</refreshInterval>
         </Icon>
